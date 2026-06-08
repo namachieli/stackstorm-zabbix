@@ -2,7 +2,8 @@ from lib.actions import ZabbixBaseAction
 
 
 class GetApiVersion(ZabbixBaseAction):
+    """Get the Zabbix API version."""
+
     def run(self):
         self.connect()
-        version = self.client.api_version()
-        return str(version)
+        return str(self.client.api_version())

@@ -1,0 +1,75 @@
+---
+name: list.problems
+pack: zabbix
+runner_type: python-script
+description: "List active Zabbix problems with optional filtering."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "problem.get"
+    immutable: true
+  hostids:
+    type: array
+    description: "Filter problems by host IDs."
+    required: false
+  groupids:
+    type: array
+    description: "Filter problems by host group IDs."
+    required: false
+  objectids:
+    type: array
+    description: "Filter by trigger IDs that generated problems."
+    required: false
+  severities:
+    type: array
+    description: "Filter by severity levels (0-5)."
+    required: false
+  acknowledged:
+    type: boolean
+    description: "Filter by acknowledgement state."
+    required: false
+  suppressed:
+    type: boolean
+    description: "Filter by suppression state."
+    required: false
+  tags:
+    type: array
+    description: "Filter by problem tags."
+    required: false
+  time_from:
+    type: string
+    description: "Return only problems after this time (unix timestamp)."
+    required: false
+  time_till:
+    type: string
+    description: "Return only problems before this time (unix timestamp)."
+    required: false
+  recent:
+    type: boolean
+    description: "Return only recently created problems."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  selectAcknowledges:
+    type: string
+    description: "Include acknowledgements. Set to 'extend'."
+    required: false
+  selectTags:
+    type: string
+    description: "Include tags. Set to 'extend'."
+    required: false
+  sortfield:
+    type: array
+    description: "Fields to sort by."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false

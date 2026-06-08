@@ -1,0 +1,39 @@
+---
+name: create.httptest
+pack: zabbix
+runner_type: python-script
+description: "Create a web monitoring scenario."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "httptest.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the web scenario."
+    required: true
+  hostid:
+    type: string
+    description: "ID of the host."
+    required: true
+  steps:
+    type: array
+    description: "Web scenario steps."
+    required: true
+  delay:
+    type: string
+    description: "Execution interval."
+    required: false
+  retries:
+    type: integer
+    description: "Number of retries."
+    required: false
+  agent:
+    type: string
+    description: "HTTP user agent string."
+    required: false
+  status:
+    type: integer
+    description: "Status: 0 (enabled), 1 (disabled)."
+    required: false

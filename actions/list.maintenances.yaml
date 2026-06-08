@@ -1,0 +1,47 @@
+---
+name: list.maintenances
+pack: zabbix
+runner_type: python-script
+description: "List Zabbix maintenance windows."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "maintenance.get"
+    immutable: true
+  filter:
+    type: object
+    description: "Filter conditions."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  search:
+    type: object
+    description: "Search by pattern."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false
+  sortfield:
+    type: string
+    description: "Field to sort by."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  hostids:
+    type: array
+    description: "Filter by host IDs in maintenance."
+    required: false
+  groupids:
+    type: array
+    description: "Filter by host group IDs in maintenance."
+    required: false
+  maintenanceids:
+    type: array
+    description: "Filter by specific maintenance IDs."
+    required: false

@@ -1,70 +1,36 @@
 import mock
 
 from zabbix_base_action_test_case import ZabbixBaseActionTestCase
-from event_action_runner import EventActionRunner
+from verify_credentials import VerifyCredentials
 
 from zabbix_utils.exceptions import ProcessingError
 from zabbix_utils.exceptions import APIRequestError
 
 
-class EventActionTestCase(ZabbixBaseActionTestCase):
+class BaseActionTestCase(ZabbixBaseActionTestCase):
     __test__ = True
-    action_cls = EventActionRunner
+    action_cls = VerifyCredentials
 
     def test_run_action_without_configuration(self):
         self.assertRaises(ValueError, self.action_cls, self.blank_config)
 
     @mock.patch('lib.actions.ZabbixAPI')
     def test_run_action_with_invalid_config_of_endpoint(self, mock_client):
-        # make an exception that means failure to connect server.
         mock_client.side_effect = ProcessingError('connection error')
 
         action = self.get_action_instance(self.full_config)
 
         with self.assertRaises(ProcessingError):
-            action.run(action='something')
+            action.run()
 
     @mock.patch('lib.actions.ZabbixAPI')
     def test_run_action_with_invalid_config_of_account(self, mock_client):
-        # make an exception that means failure to authenticate with Zabbix-server.
         mock_client.side_effect = APIRequestError('auth error')
 
         action = self.get_action_instance(self.full_config)
 
         with self.assertRaises(APIRequestError):
-            action.run(action='something')
-
-    @mock.patch('lib.actions.ZabbixAPI')
-    def test_run_action_with_invalid_config_of_action(self, mock_client):
-        mock_obj = mock.Mock()
-        mock_obj.invalid = []
-
-        mock_client.return_value = mock_obj
-
-        action = self.get_action_instance(self.full_config)
-        result = action.run(action='invalid.action')
-
-        self.assertFalse(result[0])
-        self.assertEqual(result[1], "Specified action(invalid.action) is invalid")
-
-    @mock.patch('lib.actions.ZabbixAPI')
-    def test_run_action_with_valid_config(self, mock_client):
-        def mock_double(param):
-            return param * 2
-
-        mock_handler = mock.Mock()
-        mock_handler.double = mock.Mock(side_effect=mock_double)
-
-        mock_obj = mock.Mock()
-        mock_obj.action = mock_handler
-
-        mock_client.return_value = mock_obj
-
-        action = self.get_action_instance(self.full_config)
-        result = action.run(action='action.double', param=4)
-
-        self.assertTrue(result[0])
-        self.assertEqual(result[1], 8)
+            action.run()
 
     @mock.patch('lib.actions.ZabbixAPI')
     def test_find_host(self, mock_client):

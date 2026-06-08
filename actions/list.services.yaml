@@ -1,0 +1,55 @@
+---
+name: list.services
+pack: zabbix
+runner_type: python-script
+description: "List Zabbix services."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "service.get"
+    immutable: true
+  filter:
+    type: object
+    description: "Filter conditions."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  search:
+    type: object
+    description: "Search by pattern."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false
+  sortfield:
+    type: string
+    description: "Field to sort by."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  serviceids:
+    type: array
+    description: "Filter by service IDs."
+    required: false
+  selectChildren:
+    type: string
+    description: "Include child services. Set to 'extend'."
+    required: false
+  selectParents:
+    type: string
+    description: "Include parent services. Set to 'extend'."
+    required: false
+  selectTags:
+    type: string
+    description: "Include service tags. Set to 'extend'."
+    required: false
+  selectProblemTags:
+    type: string
+    description: "Include problem tags. Set to 'extend'."
+    required: false

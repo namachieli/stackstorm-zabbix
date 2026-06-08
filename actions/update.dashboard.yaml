@@ -1,0 +1,31 @@
+---
+name: update.dashboard
+pack: zabbix
+runner_type: python-script
+description: "Update a dashboard."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "dashboard.update"
+    immutable: true
+  dashboardid:
+    type: string
+    description: "ID of the dashboard to update."
+    required: true
+  name:
+    type: string
+    description: "Dashboard name."
+    required: false
+  pages:
+    type: array
+    description: "Dashboard pages."
+    required: false
+  userid:
+    type: string
+    description: "Owner user ID."
+    required: false
+  display_period:
+    type: integer
+    description: "Page display period."
+    required: false

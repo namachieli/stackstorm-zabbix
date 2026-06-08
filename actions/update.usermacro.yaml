@@ -1,0 +1,31 @@
+---
+name: update.usermacro
+pack: zabbix
+runner_type: python-script
+description: "Update a host user macro."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "usermacro.update"
+    immutable: true
+  hostmacroid:
+    type: string
+    description: "ID of the host macro to update."
+    required: true
+  macro:
+    type: string
+    description: "Macro name."
+    required: false
+  value:
+    type: string
+    description: "Macro value."
+    required: false
+  type:
+    type: integer
+    description: "Type: 0 (text), 1 (secret), 2 (vault secret)."
+    required: false
+  description:
+    type: string
+    description: "Macro description."
+    required: false

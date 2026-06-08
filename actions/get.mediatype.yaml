@@ -1,0 +1,19 @@
+---
+name: get.mediatype
+pack: zabbix
+runner_type: python-script
+description: "Get a media type by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "mediatype.get"
+    immutable: true
+  mediatypeids:
+    type: array
+    description: "Media type IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"

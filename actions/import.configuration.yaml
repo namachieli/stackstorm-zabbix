@@ -1,0 +1,23 @@
+---
+name: import.configuration
+pack: zabbix
+runner_type: python-script
+description: "Import Zabbix configuration data."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "configuration.import_"
+    immutable: true
+  format:
+    type: string
+    description: "Import format: yaml, xml, or json."
+    required: true
+  source:
+    type: string
+    description: "Configuration data string to import."
+    required: true
+  rules:
+    type: object
+    description: "Import rules defining how to handle existing objects."
+    required: true

@@ -1,7 +1,0 @@
----
-name: list_media_types
-pack: zabbix
-runner_type: python-script
-description: List all configured media types in Zabbix
-enabled: true
-entry_point: list_media_types.py

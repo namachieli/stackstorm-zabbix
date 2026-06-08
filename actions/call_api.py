@@ -2,26 +2,34 @@ from lib.actions import ZabbixBaseAction
 
 
 class CallAPI(ZabbixBaseAction):
-    def run(self, api_method, **params):
+    """Generic Zabbix API method dispatcher.
+
+    Handles any Zabbix API call. Supports both keyword-argument methods
+    (get, create, update) and positional-argument methods (delete).
+    """
+
+    def run(self, api_method, params_list=None, **params):
         self.connect()
 
-        return self._call_api_method(self.client, api_method,
-            {k: v for k, v in params.items() if v is not None})  # dont include param where v=None
+        if params_list is not None:
+            # Positional-arg methods (e.g. host.delete takes IDs as positional args)
+            method = self._resolve_method(self.client, api_method)
+            return method(*params_list)
 
-    def _call_api_method(self, client, api_method, params):
-        """
-        Most of method of Zabbix API consist of a couple of attributes (e.g. "host.get").
-        This method unties each attribute and validate it.
-        """
-        if '.' in api_method:
-            return self._call_api_method(self._get_client_attr(client, api_method.split('.')[0]),
-                                         '.'.join(api_method.split('.')[1:]), params)
+        # Keyword-arg methods (e.g. host.get, host.create, host.update)
+        filtered = {k: v for k, v in params.items() if v is not None}
+        method = self._resolve_method(self.client, api_method)
+        return method(**filtered)
 
-        # This sends a request to Zabbix server
-        return self._get_client_attr(client, api_method)(**params)
+    def _resolve_method(self, client, api_method):
+        """Resolve a dotted API method string to a callable."""
+        obj = client
+        for attr in api_method.split('.'):
+            obj = self._get_attr(obj, attr)
+        return obj
 
-    def _get_client_attr(self, parent_object, attribute):
+    def _get_attr(self, parent_object, attribute):
         if not hasattr(parent_object, attribute):
-            raise RuntimeError("Zabbix client does not have a '%s' method", attribute)
-
+            raise RuntimeError(
+                "Zabbix API does not have a '%s' attribute" % attribute)
         return getattr(parent_object, attribute)

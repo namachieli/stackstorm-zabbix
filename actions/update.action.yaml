@@ -1,0 +1,39 @@
+---
+name: update.action
+pack: zabbix
+runner_type: python-script
+description: "Update an alert action."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "action.update"
+    immutable: true
+  actionid:
+    type: string
+    description: "ID of the action to update."
+    required: true
+  name:
+    type: string
+    description: "Action name."
+    required: false
+  status:
+    type: integer
+    description: "Status: 0 (enabled), 1 (disabled)."
+    required: false
+  esc_period:
+    type: string
+    description: "Default escalation period."
+    required: false
+  operations:
+    type: array
+    description: "Action operations."
+    required: false
+  recovery_operations:
+    type: array
+    description: "Recovery operations."
+    required: false
+  filter:
+    type: object
+    description: "Action filter."
+    required: false

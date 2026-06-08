@@ -1,0 +1,12 @@
+---
+name: delete.host.by_id
+pack: zabbix
+runner_type: python-script
+description: "Delete a Zabbix host by host ID."
+enabled: true
+entry_point: host_delete.py
+parameters:
+  host_id:
+    type: string
+    description: "ID of the Zabbix host to delete."
+    required: true

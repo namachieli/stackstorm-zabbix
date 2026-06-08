@@ -1,0 +1,47 @@
+---
+name: update.service
+pack: zabbix
+runner_type: python-script
+description: "Update a service."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "service.update"
+    immutable: true
+  serviceid:
+    type: string
+    description: "ID of the service to update."
+    required: true
+  name:
+    type: string
+    description: "Service name."
+    required: false
+  algorithm:
+    type: integer
+    description: "Status calculation algorithm."
+    required: false
+  sortorder:
+    type: integer
+    description: "Sorting position."
+    required: false
+  weight:
+    type: integer
+    description: "Service weight."
+    required: false
+  tags:
+    type: array
+    description: "Service tags."
+    required: false
+  problem_tags:
+    type: array
+    description: "Problem tags."
+    required: false
+  parents:
+    type: array
+    description: "Parent services."
+    required: false
+  children:
+    type: array
+    description: "Child services."
+    required: false

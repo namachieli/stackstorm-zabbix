@@ -1,0 +1,59 @@
+---
+name: list.alerts
+pack: zabbix
+runner_type: python-script
+description: "List Zabbix alerts with optional filtering."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "alert.get"
+    immutable: true
+  hostids:
+    type: array
+    description: "Filter alerts by host IDs."
+    required: false
+  groupids:
+    type: array
+    description: "Filter alerts by host group IDs."
+    required: false
+  actionids:
+    type: array
+    description: "Filter by action IDs."
+    required: false
+  eventids:
+    type: array
+    description: "Filter by event IDs."
+    required: false
+  mediatypeids:
+    type: array
+    description: "Filter by media type IDs."
+    required: false
+  filter:
+    type: object
+    description: "Additional filter conditions."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  time_from:
+    type: string
+    description: "Return only alerts after this time (unix timestamp)."
+    required: false
+  time_till:
+    type: string
+    description: "Return only alerts before this time (unix timestamp)."
+    required: false
+  sortfield:
+    type: string
+    description: "Field to sort by."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false

@@ -1,0 +1,20 @@
+---
+name: acknowledge.event
+pack: zabbix
+runner_type: python-script
+description: "Acknowledge a Zabbix event with an optional close action."
+enabled: true
+entry_point: acknowledge_event.py
+parameters:
+  eventid:
+    type: string
+    description: "Event ID to acknowledge."
+    required: true
+  message:
+    type: string
+    description: "Acknowledgement message."
+    required: true
+  will_close:
+    type: boolean
+    description: "If true, also close the problem."
+    default: true

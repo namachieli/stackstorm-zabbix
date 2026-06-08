@@ -1,0 +1,43 @@
+---
+name: update.user
+pack: zabbix
+runner_type: python-script
+description: "Update a user."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "user.update"
+    immutable: true
+  userid:
+    type: string
+    description: "ID of the user to update."
+    required: true
+  username:
+    type: string
+    description: "Username."
+    required: false
+  passwd:
+    type: string
+    description: "New password."
+    required: false
+  roleid:
+    type: string
+    description: "Role ID."
+    required: false
+  name:
+    type: string
+    description: "First name."
+    required: false
+  surname:
+    type: string
+    description: "Surname."
+    required: false
+  usrgrps:
+    type: array
+    description: "User groups."
+    required: false
+  medias:
+    type: array
+    description: "User medias."
+    required: false

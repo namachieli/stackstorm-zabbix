@@ -1,0 +1,31 @@
+---
+name: create.drule
+pack: zabbix
+runner_type: python-script
+description: "Create a network discovery rule."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "drule.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the discovery rule."
+    required: true
+  iprange:
+    type: string
+    description: "IP range to scan (e.g. '192.168.1.1-255')."
+    required: true
+  dchecks:
+    type: array
+    description: "Discovery checks to perform."
+    required: true
+  delay:
+    type: string
+    description: "Execution interval."
+    required: false
+  status:
+    type: integer
+    description: "Status: 0 (enabled), 1 (disabled)."
+    required: false

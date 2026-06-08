@@ -1,0 +1,27 @@
+---
+name: get.service
+pack: zabbix
+runner_type: python-script
+description: "Get a service by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "service.get"
+    immutable: true
+  serviceids:
+    type: array
+    description: "Service IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  selectChildren:
+    type: string
+    description: "Include child services. Set to 'extend'."
+    required: false
+  selectParents:
+    type: string
+    description: "Include parent services. Set to 'extend'."
+    required: false

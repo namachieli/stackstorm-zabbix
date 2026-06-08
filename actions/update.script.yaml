@@ -1,0 +1,39 @@
+---
+name: update.script
+pack: zabbix
+runner_type: python-script
+description: "Update a script."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "script.update"
+    immutable: true
+  scriptid:
+    type: string
+    description: "ID of the script to update."
+    required: true
+  name:
+    type: string
+    description: "Script name."
+    required: false
+  command:
+    type: string
+    description: "Script command."
+    required: false
+  type:
+    type: integer
+    description: "Script type."
+    required: false
+  scope:
+    type: integer
+    description: "Script scope."
+    required: false
+  execute_on:
+    type: integer
+    description: "Execution target."
+    required: false
+  description:
+    type: string
+    description: "Script description."
+    required: false

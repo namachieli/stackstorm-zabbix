@@ -1,0 +1,27 @@
+---
+name: get.sla
+pack: zabbix
+runner_type: python-script
+description: "Get an SLA definition by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "sla.get"
+    immutable: true
+  slaids:
+    type: array
+    description: "SLA IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  selectSchedule:
+    type: string
+    description: "Include schedule. Set to 'extend'."
+    required: false
+  selectServiceTags:
+    type: string
+    description: "Include service tags. Set to 'extend'."
+    required: false

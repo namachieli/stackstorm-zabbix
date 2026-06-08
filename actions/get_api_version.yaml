@@ -1,7 +1,0 @@
----
-name: get_api_version
-pack: zabbix
-runner_type: python-script
-description: Get the Zabbix API version (verifies connectivity and authentication)
-enabled: true
-entry_point: get_api_version.py

@@ -1,0 +1,31 @@
+---
+name: get.action
+pack: zabbix
+runner_type: python-script
+description: "Get an alert action by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "action.get"
+    immutable: true
+  actionids:
+    type: array
+    description: "Action IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  selectOperations:
+    type: string
+    description: "Include operations. Set to 'extend'."
+    required: false
+  selectRecoveryOperations:
+    type: string
+    description: "Include recovery operations. Set to 'extend'."
+    required: false
+  selectFilter:
+    type: string
+    description: "Include filter. Set to 'extend'."
+    required: false

@@ -1,0 +1,31 @@
+---
+name: create.map
+pack: zabbix
+runner_type: python-script
+description: "Create a new network map."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "map.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the map."
+    required: true
+  width:
+    type: integer
+    description: "Map width in pixels."
+    required: true
+  height:
+    type: integer
+    description: "Map height in pixels."
+    required: true
+  selements:
+    type: array
+    description: "Map elements."
+    required: false
+  links:
+    type: array
+    description: "Map links."
+    required: false

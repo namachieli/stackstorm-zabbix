@@ -1,0 +1,23 @@
+---
+name: execute.script
+pack: zabbix
+runner_type: python-script
+description: "Execute a Zabbix script on a host."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "script.execute"
+    immutable: true
+  scriptid:
+    type: string
+    description: "ID of the script to execute."
+    required: true
+  hostid:
+    type: string
+    description: "ID of the host to execute the script on."
+    required: true
+  eventid:
+    type: string
+    description: "ID of the event to execute the script for (if scope permits)."
+    required: false

@@ -1,0 +1,24 @@
+---
+name: find.template
+pack: zabbix
+runner_type: python-script
+description: "Resolve a template name to its template ID."
+enabled: true
+entry_point: find_object.py
+parameters:
+  object_type:
+    default: "template"
+    immutable: true
+  filter_field:
+    default: "host"
+    immutable: true
+  id_field:
+    default: "templateid"
+    immutable: true
+  allow_multiple:
+    default: false
+    immutable: true
+  name:
+    type: string
+    description: "Technical name of the template."
+    required: true

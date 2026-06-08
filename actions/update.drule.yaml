@@ -1,0 +1,35 @@
+---
+name: update.drule
+pack: zabbix
+runner_type: python-script
+description: "Update a network discovery rule."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "drule.update"
+    immutable: true
+  druleid:
+    type: string
+    description: "ID of the discovery rule to update."
+    required: true
+  name:
+    type: string
+    description: "Rule name."
+    required: false
+  iprange:
+    type: string
+    description: "IP range."
+    required: false
+  dchecks:
+    type: array
+    description: "Discovery checks."
+    required: false
+  delay:
+    type: string
+    description: "Execution interval."
+    required: false
+  status:
+    type: integer
+    description: "Status."
+    required: false

@@ -1,0 +1,19 @@
+---
+name: get.item
+pack: zabbix
+runner_type: python-script
+description: "Get an item by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "item.get"
+    immutable: true
+  itemids:
+    type: array
+    description: "Item IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"

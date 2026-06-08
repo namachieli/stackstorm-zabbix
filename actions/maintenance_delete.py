@@ -1,26 +1,16 @@
-# Licensed to the StackStorm, Inc ('StackStorm') under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 from lib.actions import ZabbixBaseAction
 from zabbix_utils.exceptions import APIRequestError
 
 
 class MaintenanceDelete(ZabbixBaseAction):
+    """Delete a Zabbix maintenance window by name or ID."""
+
     def run(self, maintenance_id=None, maintenance_window_name=None):
-        """ Delete a maintenance window base on the given maintenance_window_name
-        or a maintenance_id
+        """Delete a maintenance window.
+
+        Args:
+            maintenance_id: ID of the maintenance window to delete.
+            maintenance_window_name: Name of the maintenance window to delete.
         """
         self.connect()
 
@@ -28,20 +18,23 @@ class MaintenanceDelete(ZabbixBaseAction):
             maintenance_result = self.maintenance_get(maintenance_window_name)
 
             if len(maintenance_result) == 0:
-                raise ValueError(("Could not find maintenance windows with name: "
-                                "{0}").format(maintenance_window_name))
+                raise ValueError(
+                    "Could not find maintenance window: {0}".format(
+                        maintenance_window_name))
             elif len(maintenance_result) == 1:
                 maintenance_id = maintenance_result[0]['maintenanceid']
-            elif len(maintenance_result) >= 2:
-                raise ValueError(("There are multiple maintenance windows with the "
-                                "name: {0}").format(maintenance_window_name))
-        elif maintenance_window_name is None and maintenance_id is None:
-            raise ValueError("Must provide either a maintenance_window_name or a maintenance_id")
+            else:
+                raise ValueError(
+                    "Multiple maintenance windows found: {0}".format(
+                        maintenance_window_name))
+        elif maintenance_id is None:
+            raise ValueError(
+                "Must provide either maintenance_window_name or maintenance_id")
 
         try:
             self.client.maintenance.delete(maintenance_id)
         except APIRequestError as e:
-            raise APIRequestError(("There was a problem deleting the "
-                "maintenance window: {0}").format(e))
+            raise APIRequestError(
+                "Failed to delete maintenance window: {0}".format(e))
 
         return True

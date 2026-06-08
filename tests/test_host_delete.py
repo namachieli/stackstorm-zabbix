@@ -15,9 +15,7 @@ class HostDeleteTestCase(ZabbixBaseActionTestCase):
     def test_run_connection_error(self, mock_connect):
         action = self.get_action_instance(self.full_config)
         mock_connect.side_effect = ProcessingError('connection error')
-        test_dict = {'host': "test"}
-        host_dict = {'name': "test", 'hostid': '1'}
-        mock.MagicMock(return_value=host_dict['hostid'])
+        test_dict = {'hostname': "test"}
 
         with self.assertRaises(ProcessingError):
             action.run(**test_dict)
@@ -26,9 +24,8 @@ class HostDeleteTestCase(ZabbixBaseActionTestCase):
     def test_run_host_error(self, mock_connect):
         action = self.get_action_instance(self.full_config)
         mock_connect.return_vaue = "connect return"
-        test_dict = {'host': "test"}
-        host_dict = {'name': "test", 'hostid': '1'}
-        action.find_host = mock.MagicMock(return_value=host_dict['hostid'],
+        test_dict = {'hostname': "test"}
+        action.find_host = mock.MagicMock(
             side_effect=APIRequestError('host error'))
         action.connect = mock_connect
 
@@ -40,7 +37,7 @@ class HostDeleteTestCase(ZabbixBaseActionTestCase):
     def test_run(self, mock_connect, mock_client):
         action = self.get_action_instance(self.full_config)
         mock_connect.return_vaue = "connect return"
-        test_dict = {'host': "test"}
+        test_dict = {'hostname': "test"}
         host_dict = {'name': "test", 'hostid': '1'}
         action.connect = mock_connect
         action.find_host = mock.MagicMock(return_value=host_dict['hostid'])
@@ -70,13 +67,15 @@ class HostDeleteTestCase(ZabbixBaseActionTestCase):
     def test_run_delete_error(self, mock_connect, mock_client):
         action = self.get_action_instance(self.full_config)
         mock_connect.return_vaue = "connect return"
-        test_dict = {'host': "test"}
+        test_dict = {'hostname': "test"}
         host_dict = {'name': "test", 'hostid': '1'}
         action.connect = mock_connect
         action.find_host = mock.MagicMock(return_value=host_dict['hostid'])
         mock_client.host.delete.side_effect = APIRequestError('host error')
-        mock_client.host.delete.return_value = "delete return"
         action.client = mock_client
+
+        with self.assertRaises(APIRequestError):
+            action.run(**test_dict)
 
         with self.assertRaises(APIRequestError):
             action.run(**test_dict)

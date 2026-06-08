@@ -1,0 +1,43 @@
+---
+name: get.host
+pack: zabbix
+runner_type: python-script
+description: "Get a Zabbix host object by ID with full details."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "host.get"
+    immutable: true
+  hostids:
+    type: array
+    description: "Host IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all fields or provide a list."
+    default: "extend"
+  selectGroups:
+    type: string
+    description: "Include host groups. Set to 'extend' to include."
+    required: false
+  selectInterfaces:
+    type: string
+    description: "Include host interfaces. Set to 'extend' to include."
+    required: false
+  selectInventory:
+    type: string
+    description: "Include host inventory. Set to 'extend' to include."
+    required: false
+  selectMacros:
+    type: string
+    description: "Include host macros. Set to 'extend' to include."
+    required: false
+  selectParentTemplates:
+    type: string
+    description: "Include parent templates. Set to 'extend' to include."
+    required: false
+  selectTags:
+    type: string
+    description: "Include host tags. Set to 'extend' to include."
+    required: false

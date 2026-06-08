@@ -1,0 +1,35 @@
+---
+name: update.graph
+pack: zabbix
+runner_type: python-script
+description: "Update a graph."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "graph.update"
+    immutable: true
+  graphid:
+    type: string
+    description: "ID of the graph to update."
+    required: true
+  name:
+    type: string
+    description: "Graph name."
+    required: false
+  gitems:
+    type: array
+    description: "Graph items."
+    required: false
+  width:
+    type: integer
+    description: "Width in pixels."
+    required: false
+  height:
+    type: integer
+    description: "Height in pixels."
+    required: false
+  graphtype:
+    type: integer
+    description: "Graph type."
+    required: false

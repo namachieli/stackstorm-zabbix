@@ -1,0 +1,39 @@
+---
+name: update.mediatype
+pack: zabbix
+runner_type: python-script
+description: "Update a media type."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "mediatype.update"
+    immutable: true
+  mediatypeid:
+    type: string
+    description: "ID of the media type to update."
+    required: true
+  name:
+    type: string
+    description: "Media type name."
+    required: false
+  type:
+    type: integer
+    description: "Media type."
+    required: false
+  status:
+    type: integer
+    description: "Status: 0 (enabled), 1 (disabled)."
+    required: false
+  description:
+    type: string
+    description: "Description."
+    required: false
+  script:
+    type: string
+    description: "Webhook JavaScript body."
+    required: false
+  parameters:
+    type: array
+    description: "Webhook parameters."
+    required: false

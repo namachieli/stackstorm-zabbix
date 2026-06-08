@@ -12,26 +12,21 @@ class CallAPITest(ZabbixBaseActionTestCase):
     def test_run_action(self, mock_conn):
         action = self.get_action_instance(self.full_config)
 
-        # This is a mock of calling API 'hoge'
         action.client = mock.Mock()
         action.client.hoge.return_value = 'result'
 
-        # This checks that a method which is specified in the api_method parameter would be called
         self.assertEqual(action.run(api_method='hoge', param='foo'), 'result')
 
     @mock.patch('lib.actions.ZabbixBaseAction.connect')
     def test_call_hierarchized_method(self, mock_conn):
         action = self.get_action_instance(self.full_config)
 
-        # Initialize client object that only accepts request to 'foo.bar' method.
         action.client = mock.Mock(spec=['foo'])
         action.client.foo = mock.Mock(spec=['bar'])
         action.client.foo.bar.return_value = 'result'
 
-        # Send request with proper parameter
         self.assertEqual(action.run(api_method='foo.bar', param='hoge'), 'result')
 
-        # Send request with invalid api_method
         with self.assertRaises(RuntimeError):
             action.run(api_method='foo.hoge', param='hoge')
 
@@ -39,9 +34,6 @@ class CallAPITest(ZabbixBaseActionTestCase):
     def test_run_action_with_empty_parameters(self, mock_conn):
         action = self.get_action_instance(self.full_config)
 
-        # This is a mock of calling API 'hoge' to confirm that
-        # params with a value of None (p0) are removed prior to execution
-        # Should not remove [ '123', False, {}, [], 0 ]
         def side_effect(*args, **kwargs):
             return (args, kwargs)
 
@@ -54,3 +46,14 @@ class CallAPITest(ZabbixBaseActionTestCase):
             {'p1': '123', 'p2': False, 'p3': {}, 'p4': [], 'p5': 0}))
         action.client.hoge.assert_called_with(
             **{'p1': '123', 'p2': False, 'p3': {}, 'p4': [], 'p5': 0})
+
+    @mock.patch('lib.actions.ZabbixBaseAction.connect')
+    def test_run_with_params_list(self, mock_conn):
+        action = self.get_action_instance(self.full_config)
+
+        action.client = mock.Mock()
+        action.client.host.delete.return_value = {'hostids': ['10084']}
+
+        result = action.run(api_method='host.delete', params_list=['10084', '10085'])
+        action.client.host.delete.assert_called_with('10084', '10085')
+        self.assertEqual(result, {'hostids': ['10084']})
