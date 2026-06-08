@@ -227,6 +227,7 @@ docker-compose up -d
 This starts Zabbix Server, Web UI (port 8080), and MySQL. Access the UI at `http://localhost:8080` with `Admin/zabbix`.
 
 ## Migration from 1.x
+v2.0.0 is **not** backwards compatible and is a fully breaking upgrade.
 
 ### Breaking Changes
 
@@ -236,6 +237,7 @@ This starts Zabbix Server, Web UI (port 8080), and MySQL. Access the UI at `http
 - **Renamed**: `test_credentials` → `verify_credentials`
 - **Changed**: Library switched from `py-zabbix` to `zabbix-utils`
 - **Changed**: Authentication is now configured exclusively via pack config (`config.schema.yaml`)
+- **Changed**: Action names now follow a consistent naming convention, detailed in [./actions/README.md](./actions/README.md)
 
 ### Migration Steps
 
