@@ -3,8 +3,8 @@ import mock
 from zabbix_base_action_test_case import ZabbixBaseActionTestCase
 from event_action_runner import EventActionRunner
 
-from six.moves.urllib.error import URLError
-from pyzabbix.api import ZabbixAPIException
+from zabbix_utils.exceptions import ProcessingError
+from zabbix_utils.exceptions import APIRequestError
 
 
 class EventActionTestCase(ZabbixBaseActionTestCase):
@@ -17,21 +17,21 @@ class EventActionTestCase(ZabbixBaseActionTestCase):
     @mock.patch('lib.actions.ZabbixAPI')
     def test_run_action_with_invalid_config_of_endpoint(self, mock_client):
         # make an exception that means failure to connect server.
-        mock_client.side_effect = URLError('connection error')
+        mock_client.side_effect = ProcessingError('connection error')
 
         action = self.get_action_instance(self.full_config)
 
-        with self.assertRaises(URLError):
+        with self.assertRaises(ProcessingError):
             action.run(action='something')
 
     @mock.patch('lib.actions.ZabbixAPI')
     def test_run_action_with_invalid_config_of_account(self, mock_client):
         # make an exception that means failure to authenticate with Zabbix-server.
-        mock_client.side_effect = ZabbixAPIException('auth error')
+        mock_client.side_effect = APIRequestError('auth error')
 
         action = self.get_action_instance(self.full_config)
 
-        with self.assertRaises(ZabbixAPIException):
+        with self.assertRaises(APIRequestError):
             action.run(action='something')
 
     @mock.patch('lib.actions.ZabbixAPI')
@@ -101,11 +101,11 @@ class EventActionTestCase(ZabbixBaseActionTestCase):
     def test_find_host_fail(self, mock_client):
         action = self.get_action_instance(self.full_config)
         test_dict = {'host_name': "test", 'hostid': "1"}
-        mock_client.host.get.side_effect = ZabbixAPIException('host error')
+        mock_client.host.get.side_effect = APIRequestError('host error')
         mock_client.host.get.return_value = [test_dict]
         action.client = mock_client
 
-        with self.assertRaises(ZabbixAPIException):
+        with self.assertRaises(APIRequestError):
             action.find_host(test_dict['host_name'])
 
     @mock.patch('lib.actions.ZabbixAPI')
@@ -122,11 +122,11 @@ class EventActionTestCase(ZabbixBaseActionTestCase):
     def test_maintenance_get_fail(self, mock_client):
         action = self.get_action_instance(self.full_config)
         test_dict = {'maintenance_name': "test", 'maintenanceid': "1"}
-        mock_client.maintenance.get.side_effect = ZabbixAPIException('maintenance error')
+        mock_client.maintenance.get.side_effect = APIRequestError('maintenance error')
         mock_client.maintenance.get.return_value = [test_dict]
         action.client = mock_client
 
-        with self.assertRaises(ZabbixAPIException):
+        with self.assertRaises(APIRequestError):
             action.maintenance_get(test_dict['maintenance_name'])
 
     @mock.patch('lib.actions.ZabbixBaseAction.maintenance_get')
@@ -150,10 +150,10 @@ class EventActionTestCase(ZabbixBaseActionTestCase):
         maintenance_dict = {'maintenance_name': "test", 'maintenanceid': "1"}
         mock_maintenance_get.return_value = [maintenance_dict]
         mock_client.maintenance.update.return_value = [maintenance_dict['maintenanceid']]
-        mock_client.maintenance.update.side_effect = ZabbixAPIException('maintenance error')
+        mock_client.maintenance.update.side_effect = APIRequestError('maintenance error')
         action.client = mock_client
 
-        with self.assertRaises(ZabbixAPIException):
+        with self.assertRaises(APIRequestError):
             action.maintenance_create_or_update(test_dict)
 
     @mock.patch('lib.actions.ZabbixBaseAction.maintenance_get')
@@ -177,10 +177,10 @@ class EventActionTestCase(ZabbixBaseActionTestCase):
         maintenance_dict = {'maintenance_name': "test", 'maintenanceid': "1"}
         mock_maintenance_get.return_value = []
         mock_client.maintenance.create.return_value = [maintenance_dict['maintenanceid']]
-        mock_client.maintenance.create.side_effect = ZabbixAPIException('maintenance error')
+        mock_client.maintenance.create.side_effect = APIRequestError('maintenance error')
         action.client = mock_client
 
-        with self.assertRaises(ZabbixAPIException):
+        with self.assertRaises(APIRequestError):
             action.maintenance_create_or_update(test_dict)
 
     @mock.patch('lib.actions.ZabbixBaseAction.maintenance_get')

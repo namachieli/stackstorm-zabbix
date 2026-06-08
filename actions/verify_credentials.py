@@ -16,7 +16,7 @@
 from lib.actions import ZabbixBaseAction
 
 
-class TestCredentials(ZabbixBaseAction):
+class VerifyCredentials(ZabbixBaseAction):
 
     def run(self, host=None):
         """ Attempt to login to the Zabbix server given the credentials in the

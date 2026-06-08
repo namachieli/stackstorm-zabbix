@@ -17,7 +17,7 @@ from lib.actions import ZabbixBaseAction
 
 
 class HostGetStatus(ZabbixBaseAction):
-    def run(self, host=None, status=None):
+    def run(self, host=None):
         """ Gets the status of a Zabbix Host.
         """
         self.connect()

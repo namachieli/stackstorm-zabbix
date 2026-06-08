@@ -14,7 +14,7 @@
 # limitations under the License.
 
 from lib.actions import ZabbixBaseAction
-from pyzabbix.api import ZabbixAPIException
+from zabbix_utils.exceptions import APIRequestError
 
 
 class MaintenanceDelete(ZabbixBaseAction):
@@ -40,8 +40,8 @@ class MaintenanceDelete(ZabbixBaseAction):
 
         try:
             self.client.maintenance.delete(maintenance_id)
-        except ZabbixAPIException as e:
-            raise ZabbixAPIException(("There was a problem deleting the "
+        except APIRequestError as e:
+            raise APIRequestError(("There was a problem deleting the "
                 "maintenance window: {0}").format(e))
 
         return True

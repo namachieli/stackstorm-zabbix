@@ -1,14 +1,14 @@
 import mock
 
 from zabbix_base_action_test_case import ZabbixBaseActionTestCase
-from test_credentials import TestCredentials
+from verify_credentials import VerifyCredentials
 
-from pyzabbix.api import ZabbixAPIException
+from zabbix_utils.exceptions import APIRequestError
 
 
-class TestCredentialsTestCase(ZabbixBaseActionTestCase):
+class VerifyCredentialsTestCase(ZabbixBaseActionTestCase):
     __test__ = True
-    action_cls = TestCredentials
+    action_cls = VerifyCredentials
 
     @mock.patch('lib.actions.ZabbixBaseAction.connect')
     def test_run(self, mock_connect):
@@ -19,6 +19,6 @@ class TestCredentialsTestCase(ZabbixBaseActionTestCase):
     @mock.patch('lib.actions.ZabbixBaseAction.connect')
     def test_run_connection_error(self, mock_connect):
         action = self.get_action_instance(self.full_config)
-        mock_connect.side_effect = ZabbixAPIException('login error')
-        with self.assertRaises(ZabbixAPIException):
+        mock_connect.side_effect = APIRequestError('login error')
+        with self.assertRaises(APIRequestError):
             action.run()

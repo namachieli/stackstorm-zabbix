@@ -13,10 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pyzabbix.api import ZabbixAPIException
+from zabbix_utils import ZabbixAPI
+from zabbix_utils.exceptions import APIRequestError, ProcessingError
 from st2common.runners.base_action import Action
-from six.moves.urllib.error import URLError
-from zabbix.api import ZabbixAPI
 
 
 class ZabbixBaseAction(Action):
@@ -29,22 +28,31 @@ class ZabbixBaseAction(Action):
         if self.config is not None and "zabbix" in self.config:
             if "url" not in self.config['zabbix']:
                 raise ValueError("Zabbix url details not in the config.yaml")
-            elif "username" not in self.config['zabbix']:
-                raise ValueError("Zabbix user details not in the config.yaml")
-            elif "password" not in self.config['zabbix']:
-                raise ValueError("Zabbix password details not in the config.yaml")
+            # Require either api_token or username+password
+            has_token = bool(self.config['zabbix'].get('api_token'))
+            has_user = ('username' in self.config['zabbix'] and
+                        'password' in self.config['zabbix'])
+            if not has_token and not has_user:
+                raise ValueError("Zabbix api_token or username/password "
+                                 "must be set in the config.yaml")
         else:
             raise ValueError("Zabbix details not in the config.yaml")
 
     def connect(self):
         try:
-            self.client = ZabbixAPI(url=self.config['zabbix']['url'],
-                                    user=self.config['zabbix']['username'],
-                                    password=self.config['zabbix']['password'])
-        except ZabbixAPIException as e:
-            raise ZabbixAPIException("Failed to authenticate with Zabbix (%s)" % str(e))
-        except URLError as e:
-            raise URLError("Failed to connect to Zabbix Server (%s)" % str(e))
+            self.client = ZabbixAPI(url=self.config['zabbix']['url'])
+            api_token = self.config['zabbix'].get('api_token')
+            if api_token:
+                self.client.login(token=api_token)
+            else:
+                self.client.login(
+                    user=self.config['zabbix']['username'],
+                    password=self.config['zabbix']['password']
+                )
+        except APIRequestError as e:
+            raise APIRequestError("Failed to authenticate with Zabbix (%s)" % str(e))
+        except ProcessingError as e:
+            raise ProcessingError("Failed to connect to Zabbix Server (%s)" % str(e))
         except KeyError:
             raise KeyError("Configuration for Zabbix pack is not set yet")
 
@@ -58,9 +66,9 @@ class ZabbixBaseAction(Action):
     def find_host(self, host_name):
         try:
             zabbix_host = self.client.host.get(filter={"host": host_name})
-        except ZabbixAPIException as e:
-            raise ZabbixAPIException(("There was a problem searching for the host: "
-                                      "{0}".format(e)))
+        except APIRequestError as e:
+            raise APIRequestError(("There was a problem searching for the host: "
+                                   "{0}".format(e)))
 
         if len(zabbix_host) == 0:
             raise ValueError("Could not find any hosts named {0}".format(host_name))
@@ -71,13 +79,35 @@ class ZabbixBaseAction(Action):
 
         return self.zabbix_host['hostid']
 
+    def host_get_extended(self, host_ids, select_field, output_fields):
+        """Retrieve extended host data by IDs with a specified select parameter.
+
+        Args:
+            host_ids: Host ID or list of host IDs.
+            select_field: The selectX parameter name (e.g. 'selectInterfaces').
+            output_fields: List of output field names (e.g. ['hostid', 'interfaces']).
+
+        Returns:
+            List of host dicts with the requested extended data.
+        """
+        try:
+            kwargs = {
+                'hostids': host_ids,
+                select_field: 'extend',
+                'output': output_fields,
+            }
+            return self.client.host.get(**kwargs)
+        except APIRequestError as e:
+            raise APIRequestError(
+                "There was a problem searching for the host: {0}".format(e))
+
     def maintenance_get(self, maintenance_name):
         try:
             result = self.client.maintenance.get(filter={"name": maintenance_name})
             return result
-        except ZabbixAPIException as e:
-            raise ZabbixAPIException(("There was a problem searching for the maintenance window: "
-                                      "{0}".format(e)))
+        except APIRequestError as e:
+            raise APIRequestError(("There was a problem searching for the maintenance window: "
+                                   "{0}".format(e)))
 
     def maintenance_create_or_update(self, maintenance_params):
         maintenance_result = self.maintenance_get(maintenance_params['name'])
@@ -85,18 +115,18 @@ class ZabbixBaseAction(Action):
             try:
                 create_result = self.client.maintenance.create(**maintenance_params)
                 return create_result
-            except ZabbixAPIException as e:
-                raise ZabbixAPIException(("There was a problem creating the "
-                                          "maintenance window: {0}".format(e)))
+            except APIRequestError as e:
+                raise APIRequestError(("There was a problem creating the "
+                                       "maintenance window: {0}".format(e)))
         elif len(maintenance_result) == 1:
             try:
                 maintenance_id = maintenance_result[0]['maintenanceid']
                 update_result = self.client.maintenance.update(maintenanceid=maintenance_id,
                                                                **maintenance_params)
                 return update_result
-            except ZabbixAPIException as e:
-                raise ZabbixAPIException(("There was a problem updating the "
-                                          "maintenance window: {0}".format(e)))
+            except APIRequestError as e:
+                raise APIRequestError(("There was a problem updating the "
+                                       "maintenance window: {0}".format(e)))
         elif len(maintenance_result) >= 2:
             raise ValueError(("There are multiple maintenance windows with the "
                               "name: {0}").format(maintenance_params['name']))

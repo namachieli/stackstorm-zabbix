@@ -1,5 +1,50 @@
 # Change Log
 
+## [2.0.0] - 2026-06-05
+
+### Added
+- Zabbix 6.0.46 API compatibility
+- StackStorm 3.9 compatibility
+- Webhook media type for direct StackStorm API integration (replaces script-based approach)
+- Webhook media type for RabbitMQ message publishing
+- API token authentication support (in addition to user/password)
+- `scripts/register_webhook_st2.sh` for automated ST2 webhook configuration
+- `scripts/register_webhook_rabbitmq.sh` for automated RabbitMQ webhook + exchange/queue configuration
+- `verify_credentials` action (renamed from test_credentials)
+- `get_api_version` action
+- `list_media_types` action
+- `host_get_extended()` helper method in ZabbixBaseAction (DRY refactoring)
+- `conftest.py` for pytest path configuration
+- Enriched trigger payload schema with structured Zabbix event fields
+- Contributors field in pack.yaml
+- 65 unit tests passing
+
+### Changed
+- Switched from py-zabbix (EncoreTechnologies fork) to official `zabbix-utils` library
+- All actions now use pack config auth exclusively (removed per-action token parameter)
+- `call_api.py` and `create_host.py` simplified to use `self.connect()` only
+- `host_get_interfaces`, `host_get_inventory`, `host_get_hostgroups` refactored to use shared helper
+- config.schema.yaml simplified to Zabbix-only auth
+- `docker-compose.yaml`: pinned images to `6.0-ubuntu-latest`, mysql to `8.0`
+- `maintenance_create_or_update.py`: migrated from deprecated `hostids` to `hosts` parameter
+- Overhauled README.md with complete documentation
+
+### Removed
+- `tools/` directory (register_st2_config_to_zabbix.py, st2_dispatch.py)
+- `spec/` directory (Ruby Serverspec tests)
+- `Gemfile` and `Rakefile` (Ruby infrastructure)
+- `images/` directory (legacy screenshots)
+- Legacy script-based media type approach
+- `six` library dependency
+- `pytz` dependency
+- Legacy `token` parameter from 9 action YAML definitions
+- `rules/zabbix_rabbitmq_bridge.yaml` (unnecessary bridge rule)
+- `actions/register_webhook_st2.py` + `.yaml` (scripts are the correct mechanism)
+- `actions/register_webhook_rabbitmq.py` + `.yaml` (scripts are the correct mechanism)
+- `test_tool_register_st2_config_to_zabbix.py`
+- `test_tool_st2_dispatch.py`
+- `extra_args` field from trigger payload schema
+
 ## 1.2.4
 ### Updated
 - Updated files to work with latest CI updates

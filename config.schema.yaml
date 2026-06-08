@@ -7,12 +7,19 @@ zabbix:
   properties:
     url:
       type: string
+      required: true
       description: The zabbix login URL
-      default: http://localhost/zabbix
+      default: http://localhost:8080
     username:
       type: string
+      description: Zabbix username (required if api_token not set)
       default: Admin
     password:
       type: string
+      description: Zabbix password (required if api_token not set)
       default: zabbix
+      secret: true
+    api_token:
+      type: string
+      description: Zabbix API token (preferred over username/password)
       secret: true

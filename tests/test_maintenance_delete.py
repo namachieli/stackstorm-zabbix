@@ -3,8 +3,8 @@ import mock
 from zabbix_base_action_test_case import ZabbixBaseActionTestCase
 from maintenance_delete import MaintenanceDelete
 
-from six.moves.urllib.error import URLError
-from pyzabbix.api import ZabbixAPIException
+from zabbix_utils.exceptions import ProcessingError
+from zabbix_utils.exceptions import APIRequestError
 
 
 class MaintenanceDeleteTestCase(ZabbixBaseActionTestCase):
@@ -14,10 +14,10 @@ class MaintenanceDeleteTestCase(ZabbixBaseActionTestCase):
     @mock.patch('lib.actions.ZabbixBaseAction.connect')
     def test_run_connection_error(self, mock_connect):
         action = self.get_action_instance(self.full_config)
-        mock_connect.side_effect = URLError('connection error')
+        mock_connect.side_effect = ProcessingError('connection error')
         test_dict = {'maintenance_window_name': None, 'maintenance_id': '1'}
 
-        with self.assertRaises(URLError):
+        with self.assertRaises(ProcessingError):
             action.run(**test_dict)
 
     @mock.patch('lib.actions.ZabbixAPI')
@@ -100,9 +100,9 @@ class MaintenanceDeleteTestCase(ZabbixBaseActionTestCase):
         mock_connect.return_vaue = "connect return"
         test_dict = {'maintenance_window_name': None, 'maintenance_id': '1'}
         action.connect = mock_connect
-        mock_client.maintenance.delete.side_effect = ZabbixAPIException('maintenance error')
+        mock_client.maintenance.delete.side_effect = APIRequestError('maintenance error')
         mock_client.maintenance.delete.return_value = "delete return"
         action.client = mock_client
 
-        with self.assertRaises(ZabbixAPIException):
+        with self.assertRaises(APIRequestError):
             action.run(**test_dict)

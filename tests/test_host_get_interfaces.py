@@ -3,7 +3,7 @@ import mock
 from zabbix_base_action_test_case import ZabbixBaseActionTestCase
 from host_get_interfaces import HostGetInterfaces
 
-from six.moves.urllib.error import URLError
+from zabbix_utils.exceptions import ProcessingError
 
 
 class HostGetInterfacesTestCase(ZabbixBaseActionTestCase):
@@ -13,10 +13,10 @@ class HostGetInterfacesTestCase(ZabbixBaseActionTestCase):
     @mock.patch('lib.actions.ZabbixBaseAction.connect')
     def test_run_connection_error(self, mock_connect):
         action = self.get_action_instance(self.full_config)
-        mock_connect.side_effect = URLError('connection error')
+        mock_connect.side_effect = ProcessingError('connection error')
         test_dict = {'host_ids': ["12345"]}
 
-        with self.assertRaises(URLError):
+        with self.assertRaises(ProcessingError):
             action.run(**test_dict)
 
     @mock.patch('lib.actions.ZabbixAPI')

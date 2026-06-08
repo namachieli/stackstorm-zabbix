@@ -15,12 +15,6 @@ parameters:
   groupids:
     description: list of groupids to limit the results to. Example - ["123", "456"]
     type: array
-  token:
-    type: string
-    description: Encrypted access token to authenticate to ZabbixServer
-    default: |
-      {% if st2kv.user.zabbix.secret_token|string != '' %}{{ st2kv.user.zabbix.secret_token | decrypt_kv }}{% endif %}
-    secret: true
   api_method:
     default: host.get
     immutable: true

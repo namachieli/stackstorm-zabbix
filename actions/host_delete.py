@@ -14,7 +14,7 @@
 # limitations under the License.
 
 from lib.actions import ZabbixBaseAction
-from pyzabbix.api import ZabbixAPIException
+from zabbix_utils.exceptions import APIRequestError
 
 
 class HostDelete(ZabbixBaseAction):
@@ -29,5 +29,5 @@ class HostDelete(ZabbixBaseAction):
         try:
             self.client.host.delete(host_id)
             return True
-        except ZabbixAPIException as e:
-            raise ZabbixAPIException("There was a problem deleting the host: {0}".format(e))
+        except APIRequestError as e:
+            raise APIRequestError("There was a problem deleting the host: {0}".format(e))

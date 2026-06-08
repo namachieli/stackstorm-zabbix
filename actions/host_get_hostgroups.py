@@ -14,7 +14,6 @@
 # limitations under the License.
 
 from lib.actions import ZabbixBaseAction
-from pyzabbix.api import ZabbixAPIException
 
 
 class HostGetHostGroups(ZabbixBaseAction):
@@ -24,13 +23,8 @@ class HostGetHostGroups(ZabbixBaseAction):
         """
         self.connect()
 
-        # Find hostgroups by host ids
-        try:
-            hostgroups = self.client.host.get(
-                hostids=host_id, selectGroups='extend', output=['hostid', 'groups'])
-        except ZabbixAPIException as e:
-            raise ZabbixAPIException(("There was a problem searching for the host: "
-                                      "{0}".format(e)))
+        hostgroups = self.host_get_extended(host_id, 'selectGroups',
+                                            ['hostid', 'groups'])
 
         # if group ids are passed in we check to see if the host is a part of said groups
         if group_id:

@@ -1,5 +1,4 @@
 from lib.actions import ZabbixBaseAction
-from zabbix.api import ZabbixAPI
 
 
 class CreateHost(ZabbixBaseAction):
@@ -28,13 +27,8 @@ class CreateHost(ZabbixBaseAction):
                 'hosts': current_hosts + new_hosts,
             })
 
-    def run(self, name, groups, ipaddrs=[], domains=[], proxy_host=None, token=None, main_if=''):
-        # Initialize client object to connect Zabbix server
-        if token:
-            self.client = ZabbixAPI(url=self.config['zabbix']['url'])
-            self.auth = token
-        else:
-            self.connect()
+    def run(self, name, groups, ipaddrs=[], domains=[], proxy_host=None, main_if=''):
+        self.connect()
 
         # retrieve hostgroup-ids to be set to creating host object
         hostgroups = [x['groupid'] for x in self.client.hostgroup.get(filter={'name': groups})]

@@ -14,7 +14,7 @@
 # limitations under the License.
 
 from lib.actions import ZabbixBaseAction
-from pyzabbix.api import ZabbixAPIException
+from zabbix_utils.exceptions import APIRequestError
 
 
 class ZabbixGetMultipleHostID(ZabbixBaseAction):
@@ -25,9 +25,9 @@ class ZabbixGetMultipleHostID(ZabbixBaseAction):
         """
         try:
             zabbix_hosts = self.client.host.get(filter={"host": host_name})
-        except ZabbixAPIException as e:
-            raise ZabbixAPIException(("There was a problem searching for the host: "
-                                    "{0}".format(e)))
+        except APIRequestError as e:
+            raise APIRequestError(("There was a problem searching for the host: "
+                                   "{0}".format(e)))
 
         zabbix_hosts_return = []
         if len(zabbix_hosts) > 0:

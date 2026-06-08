@@ -57,7 +57,7 @@ class MaintenanceCreateOrUpdate(ZabbixBaseAction):
                         'period': period}]
 
         maintenance_params = {
-            'hostids': [host_id],
+            'hosts': [{'hostid': host_id}],
             'name': maintenance_window_name,
             'active_since': start_time,
             'active_till': end_time,

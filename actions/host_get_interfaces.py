@@ -14,7 +14,6 @@
 # limitations under the License.
 
 from lib.actions import ZabbixBaseAction
-from pyzabbix.api import ZabbixAPIException
 
 
 class HostGetInterfaces(ZabbixBaseAction):
@@ -24,12 +23,5 @@ class HostGetInterfaces(ZabbixBaseAction):
         """
         self.connect()
 
-        # Find interfaces by host ids
-        try:
-            interfaces = self.client.host.get(
-                hostids=host_ids, selectInterfaces='extend', output=['hostid', 'interfaces'])
-        except ZabbixAPIException as e:
-            raise ZabbixAPIException(("There was a problem searching for the host: "
-                                      "{0}".format(e)))
-
-        return interfaces
+        return self.host_get_extended(host_ids, 'selectInterfaces',
+                                      ['hostid', 'interfaces'])
