@@ -1,25 +1,19 @@
 ---
-zabbix:
-  description: Configuration to authenticate with Zabbix Server
-  type: object
+url:
+  type: string
   required: true
-  additionalProperties: false
-  properties:
-    url:
-      type: string
-      required: true
-      description: The zabbix login URL
-      default: http://localhost:8080
-    username:
-      type: string
-      description: Zabbix username (required if api_token not set)
-      default: Admin
-    password:
-      type: string
-      description: Zabbix password (required if api_token not set)
-      default: zabbix
-      secret: true
-    api_token:
-      type: string
-      description: Zabbix API token (preferred over username/password)
-      secret: true
+  description: The Zabbix frontend URL (e.g. http://zabbix.example.com:8080)
+  default: http://localhost:8080
+username:
+  type: string
+  description: Zabbix username (required if api_token not set)
+  default: Admin
+password:
+  type: string
+  description: Zabbix password (required if api_token not set)
+  default: zabbix
+  secret: true
+api_token:
+  type: string
+  description: Zabbix API token (preferred over username/password)
+  secret: true

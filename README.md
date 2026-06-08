@@ -30,10 +30,10 @@ st2 pack config zabbix
 
 | Parameter | Description | Default | Required |
 |:----------|:------------|:--------|:---------|
-| `zabbix.url` | Zabbix frontend URL | `http://localhost:8080` | Yes |
-| `zabbix.api_token` | Zabbix API token (preferred) | — | No* |
-| `zabbix.username` | Zabbix username | `Admin` | No* |
-| `zabbix.password` | Zabbix password | `zabbix` | No* |
+| `url` | Zabbix frontend URL | `http://localhost:8080` | Yes |
+| `api_token` | Zabbix API token (preferred) | — | No* |
+| `username` | Zabbix username | `Admin` | No* |
+| `password` | Zabbix password | `zabbix` | No* |
 
 \* Either `api_token` OR `username`/`password` must be provided.
 
@@ -41,19 +41,17 @@ st2 pack config zabbix
 
 ```yaml
 ---
-zabbix:
-  url: "http://zabbix.example.com:8080"
-  api_token: "your-api-token-here"
+url: "http://zabbix.example.com:8080"
+api_token: "your-api-token-here"
 ```
 
 Or with username/password:
 
 ```yaml
 ---
-zabbix:
-  url: "http://zabbix.example.com:8080"
-  username: "Admin"
-  password: "zabbix"
+url: "http://zabbix.example.com:8080"
+username: "Admin"
+password: "zabbix"
 ```
 
 ## Webhook Setup

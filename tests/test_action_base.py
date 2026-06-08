@@ -19,7 +19,22 @@ class BaseActionTestCase(ZabbixBaseActionTestCase):
         self.assertIsNotNone(action)
 
     def test_init_missing_auth(self):
-        config = {'zabbix': {'url': 'http://localhost:8080'}}
+        config = {'url': 'http://localhost:8080'}
+        with self.assertRaises(ValueError):
+            self.action_cls(config)
+
+    def test_init_empty_username(self):
+        config = {'url': 'http://localhost:8080', 'username': '', 'password': 'zabbix'}
+        with self.assertRaises(ValueError):
+            self.action_cls(config)
+
+    def test_init_empty_password(self):
+        config = {'url': 'http://localhost:8080', 'username': 'Admin', 'password': ''}
+        with self.assertRaises(ValueError):
+            self.action_cls(config)
+
+    def test_init_none_credentials(self):
+        config = {'url': 'http://localhost:8080', 'username': None, 'password': None}
         with self.assertRaises(ValueError):
             self.action_cls(config)
 

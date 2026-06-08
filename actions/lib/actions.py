@@ -25,29 +25,29 @@ class ZabbixBaseAction(Action):
         self.config = config
         self.client = None
 
-        if self.config is not None and "zabbix" in self.config:
-            if "url" not in self.config['zabbix']:
-                raise ValueError("Zabbix url details not in the config.yaml")
-            # Require either api_token or username+password
-            has_token = bool(self.config['zabbix'].get('api_token'))
-            has_user = ('username' in self.config['zabbix'] and
-                        'password' in self.config['zabbix'])
-            if not has_token and not has_user:
-                raise ValueError("Zabbix api_token or username/password "
-                                 "must be set in the config.yaml")
-        else:
+        if not self.config:
             raise ValueError("Zabbix details not in the config.yaml")
+
+        if "url" not in self.config:
+            raise ValueError("Zabbix url details not in the config.yaml")
+        # Require either api_token or username+password
+        has_token = bool(self.config.get('api_token'))
+        has_user = bool(self.config.get('username') and
+                        self.config.get('password'))
+        if not has_token and not has_user:
+            raise ValueError("Zabbix api_token or username/password "
+                             "must be set in the config.yaml")
 
     def connect(self):
         try:
-            self.client = ZabbixAPI(url=self.config['zabbix']['url'])
-            api_token = self.config['zabbix'].get('api_token')
+            self.client = ZabbixAPI(url=self.config['url'])
+            api_token = self.config.get('api_token')
             if api_token:
                 self.client.login(token=api_token)
             else:
                 self.client.login(
-                    user=self.config['zabbix']['username'],
-                    password=self.config['zabbix']['password']
+                    user=self.config['username'],
+                    password=self.config['password']
                 )
         except APIRequestError as e:
             raise APIRequestError("Failed to authenticate with Zabbix (%s)" % str(e))
