@@ -246,3 +246,4 @@ v2.0.0 is **not** backwards compatible and is a fully breaking upgrade.
 3. Remove any st2kv references to `zabbix.secret_token` (no longer used)
 4. Update any rules referencing `zabbix.test_credentials` to `zabbix.verify.credentials`
 5. Remove the legacy AlertScript from Zabbix server (`/usr/lib/zabbix/alertscripts/st2_dispatch.py`)
+6. Update any workflow or external references to legacy action names, to updated action naming methodology.
