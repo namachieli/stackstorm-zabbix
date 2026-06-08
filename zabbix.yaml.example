@@ -1,5 +1,6 @@
 ---
 zabbix:
-  url: http://localhost/zabbix
+  url: http://localhost:8080
   username: Admin
   password: zabbix
+  # api_token: "your-api-token-here"  # preferred over username/password

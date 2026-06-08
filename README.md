@@ -169,34 +169,40 @@ Dispatched when Zabbix sends an alert via the direct StackStorm webhook.
 
 ## Actions
 
+This pack provides 139 actions covering the full Zabbix 6.0 API. Key actions are listed below. Run `st2 action list --pack=zabbix` for the complete list.
+
 | Action | Description |
 |:-------|:------------|
-| `zabbix.ack_event` | Send acknowledgement message for an event |
-| `zabbix.call_api` | Call arbitrary Zabbix API method |
-| `zabbix.create_host` | Create a new host in Zabbix |
-| `zabbix.get_api_version` | Get Zabbix API version (connectivity test) |
-| `zabbix.host_delete` | Delete a Zabbix host by name |
-| `zabbix.host_delete_by_id` | Delete a Zabbix host by ID |
-| `zabbix.host_get_active_triggers` | Get active triggers for a host (workflow) |
-| `zabbix.host_get_alerts` | Get alerts for a host |
-| `zabbix.host_get_events` | Get events for a host |
-| `zabbix.host_get_hostgroups` | Get/check hostgroups of a host |
-| `zabbix.host_get_id` | Get the ID of a host by name |
-| `zabbix.host_get_interfaces` | Get interfaces of one or more hosts |
-| `zabbix.host_get_inventory` | Get inventory of one or more hosts |
-| `zabbix.host_get_multiple_ids` | Get IDs of multiple hosts |
-| `zabbix.host_get_status` | Get monitoring status of a host |
-| `zabbix.host_get_triggers` | Get triggers for a host |
-| `zabbix.host_update_status` | Enable/disable monitoring of a host |
-| `zabbix.list_host_groups` | List all host groups |
-| `zabbix.list_host_interfaces` | List all host interfaces |
-| `zabbix.list_hosts` | List all hosts |
-| `zabbix.list_media_types` | List configured media types |
-| `zabbix.list_templates` | List all templates |
-| `zabbix.maintenance_create_or_update` | Create or update a maintenance window |
-| `zabbix.maintenance_delete` | Delete a maintenance window |
-| `zabbix.update_host` | Update host properties |
-| `zabbix.verify_credentials` | Verify Zabbix credentials are valid |
+| `zabbix.acknowledge.event` | Acknowledge a Zabbix event with optional close |
+| `zabbix.call.api` | Call any Zabbix API method (generic dispatcher) |
+| `zabbix.create.host` | Create a new host with interfaces and proxy |
+| `zabbix.create_or_update.maintenance` | Create or update a maintenance window |
+| `zabbix.delete.host` | Delete a host by hostname |
+| `zabbix.delete.host.by_id` | Delete a host by ID |
+| `zabbix.delete.maintenance` | Delete a maintenance window |
+| `zabbix.find.host` | Resolve hostname to host ID |
+| `zabbix.find.hosts` | Resolve multiple hostnames to IDs |
+| `zabbix.find.hostgroup` | Resolve host group name to ID |
+| `zabbix.find.template` | Resolve template name to ID |
+| `zabbix.find.proxy` | Resolve proxy name to ID |
+| `zabbix.get.api_version` | Get Zabbix API version (connectivity test) |
+| `zabbix.get.host` | Get host details by ID |
+| `zabbix.get.host.active_triggers` | Get active triggers for a host (workflow) |
+| `zabbix.get.host.groups` | Get host group membership by host ID |
+| `zabbix.get.host.interfaces` | Get interfaces by host ID |
+| `zabbix.get.host.inventory` | Get inventory by host ID |
+| `zabbix.get.host.status` | Get monitoring status by hostname |
+| `zabbix.list.alerts` | List alerts with optional filtering |
+| `zabbix.list.events` | List events with optional filtering |
+| `zabbix.list.hosts` | List/search hosts |
+| `zabbix.list.hostgroups` | List host groups |
+| `zabbix.list.mediatypes` | List media types |
+| `zabbix.list.problems` | List active problems |
+| `zabbix.list.templates` | List templates |
+| `zabbix.list.triggers` | List triggers |
+| `zabbix.update.host` | Update host properties |
+| `zabbix.update.host.status` | Enable/disable host monitoring |
+| `zabbix.verify.credentials` | Verify Zabbix API credentials are valid |
 
 ## Development
 
@@ -238,5 +244,5 @@ This starts Zabbix Server, Web UI (port 8080), and MySQL. Access the UI at `http
 1. Update pack config to use new schema (add `api_token` or keep `username`/`password`)
 2. Run the appropriate registration script to create webhook media types
 3. Remove any st2kv references to `zabbix.secret_token` (no longer used)
-4. Update any rules referencing `zabbix.test_credentials` to `zabbix.verify_credentials`
+4. Update any rules referencing `zabbix.test_credentials` to `zabbix.verify.credentials`
 5. Remove the legacy AlertScript from Zabbix server (`/usr/lib/zabbix/alertscripts/st2_dispatch.py`)

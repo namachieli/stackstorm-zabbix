@@ -14,6 +14,36 @@ class BaseActionTestCase(ZabbixBaseActionTestCase):
     def test_run_action_without_configuration(self):
         self.assertRaises(ValueError, self.action_cls, self.blank_config)
 
+    def test_init_with_token_only_config(self):
+        action = self.get_action_instance(self.token_config)
+        self.assertIsNotNone(action)
+
+    def test_init_missing_auth(self):
+        config = {'zabbix': {'url': 'http://localhost:8080'}}
+        with self.assertRaises(ValueError):
+            self.action_cls(config)
+
+    @mock.patch('lib.actions.ZabbixAPI')
+    def test_connect_with_token(self, mock_zabbix_cls):
+        mock_client = mock.Mock()
+        mock_zabbix_cls.return_value = mock_client
+
+        action = self.get_action_instance(self.token_config)
+        action.connect()
+
+        mock_zabbix_cls.assert_called_with(url='http://localhost:8080')
+        mock_client.login.assert_called_once_with(token='my-test-token-12345')
+
+    @mock.patch('lib.actions.ZabbixAPI')
+    def test_connect_with_username_password(self, mock_zabbix_cls):
+        mock_client = mock.Mock()
+        mock_zabbix_cls.return_value = mock_client
+
+        action = self.get_action_instance(self.full_config)
+        action.connect()
+
+        mock_client.login.assert_called_once_with(user='Admin', password='zabbix')
+
     @mock.patch('lib.actions.ZabbixAPI')
     def test_run_action_with_invalid_config_of_endpoint(self, mock_client):
         mock_client.side_effect = ProcessingError('connection error')
@@ -164,3 +194,30 @@ class BaseActionTestCase(ZabbixBaseActionTestCase):
 
         with self.assertRaises(ValueError):
             action.maintenance_create_or_update(test_dict)
+
+    @mock.patch('lib.actions.ZabbixAPI')
+    def test_host_get_extended(self, mock_client):
+        action = self.get_action_instance(self.full_config)
+        mock_client.host.get.return_value = [
+            {'hostid': '1', 'interfaces': [{'interfaceid': '10'}]}
+        ]
+        action.client = mock_client
+
+        result = action.host_get_extended(
+            '1', 'selectInterfaces', ['hostid', 'interfaces'])
+        self.assertEqual(result, [
+            {'hostid': '1', 'interfaces': [{'interfaceid': '10'}]}
+        ])
+        mock_client.host.get.assert_called_with(
+            hostids='1', selectInterfaces='extend',
+            output=['hostid', 'interfaces'])
+
+    @mock.patch('lib.actions.ZabbixAPI')
+    def test_host_get_extended_api_error(self, mock_client):
+        action = self.get_action_instance(self.full_config)
+        mock_client.host.get.side_effect = APIRequestError('host error')
+        action.client = mock_client
+
+        with self.assertRaises(APIRequestError):
+            action.host_get_extended(
+                '1', 'selectInterfaces', ['hostid', 'interfaces'])

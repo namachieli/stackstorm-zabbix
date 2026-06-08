@@ -1,0 +1,4 @@
+---
+zabbix:
+  url: http://localhost:8080
+  api_token: my-test-token-12345

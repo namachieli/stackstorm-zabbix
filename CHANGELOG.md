@@ -27,7 +27,7 @@
 - Contributors field in pack.yaml
 - `actions/README.md` design guide documenting conventions and patterns
 - `tests/README.md` guide for test structure and contribution
-- 56 unit tests passing
+- 65 unit tests passing
 
 ### Changed
 - Switched from py-zabbix (EncoreTechnologies fork) to official `zabbix-utils` library

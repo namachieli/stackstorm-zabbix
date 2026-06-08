@@ -80,6 +80,7 @@ Located in `tests/fixtures/`:
 | File | Purpose |
 |------|---------|
 | `full.yaml` | Symlink to `../../zabbix.yaml.example` — valid pack config with URL, username, password |
+| `token.yaml` | Config with API token auth — tests token-based authentication path |
 | `blank.yaml` | Empty YAML — used to test config validation errors |
 
 Add new fixture files here for complex test scenarios (JSON responses, multi-host data, etc.).

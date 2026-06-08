@@ -76,3 +76,19 @@ class CreateHostTest(ZabbixBaseActionTestCase):
 
         with self.assertRaises(ValueError):
             action.run(name='test-host', groups=[])
+
+    @mock.patch('lib.actions.ZabbixBaseAction.connect')
+    def test_create_host_with_ip(self, mock_connect):
+        action = self.get_action_instance(self.full_config)
+        action.client = self._mock_client
+
+        result = action.run(name='test-host', groups=[], ipaddrs=['192.168.1.1'])
+        self.assertEqual(result, {'hostids': ['1234']})
+        self.assertEqual(self._check_data['interfaces'], [{
+            'type': 1,
+            'main': 1,
+            'useip': 1,
+            'dns': '',
+            'ip': '192.168.1.1',
+            'port': '10050'
+        }])
