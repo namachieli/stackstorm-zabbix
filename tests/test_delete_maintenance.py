@@ -1,7 +1,7 @@
 import mock
 
 from zabbix_base_action_test_case import ZabbixBaseActionTestCase
-from maintenance_delete import MaintenanceDelete
+from delete_maintenance import MaintenanceDelete
 
 from zabbix_utils.exceptions import ProcessingError
 from zabbix_utils.exceptions import APIRequestError

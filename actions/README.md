@@ -72,10 +72,10 @@ actions/
 ├── find_object.py                      # Generic name→ID resolver (7 find actions)
 ├── acknowledge_event.py                # Event acknowledgement with close logic
 ├── create_host.py                      # Host creation with interface/proxy logic
-├── host_delete.py                      # Host deletion by name or ID
+├── delete_host.py                      # Host deletion by name or ID
 ├── host_status.py                      # Get/update host status by hostname
-├── maintenance_create_or_update.py     # Timezone math + create-or-update logic
-├── maintenance_delete.py               # Delete by name or ID resolution
+├── create_or_update_maintenance.py     # Timezone math + create-or-update logic
+├── delete_maintenance.py               # Delete by name or ID resolution
 ├── get_api_version.py                  # API version check
 ├── verify_credentials.py              # Connection test
 └── workflows/

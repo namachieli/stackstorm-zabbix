@@ -4,7 +4,7 @@ pack: zabbix
 runner_type: python-script
 description: "Create a maintenance window or update it if one with the same name exists."
 enabled: true
-entry_point: maintenance_create_or_update.py
+entry_point: create_or_update_maintenance.py
 parameters:
   hostname:
     type: string

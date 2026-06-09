@@ -38,8 +38,8 @@
 - Consolidated 17 Python entry points down to 10 via DRY refactoring
 - `call_api.py` enhanced with `params_list` support for positional-arg API methods (delete operations)
 - `create_host.py` simplified — no tuple returns, raises ValueError on error
-- `host_delete.py` parameter renamed `host` → `hostname`
-- `maintenance_create_or_update.py` uses `.timestamp()` instead of `strftime('%s')`, returns ID directly
+- `delete_host.py` parameter renamed `host` → `hostname`
+- `create_or_update_maintenance.py` uses `.timestamp()` instead of `strftime('%s')`, returns ID directly
 - config.schema.yaml simplified to Zabbix-only auth
 - `docker-compose.yaml`: pinned images to `6.0-ubuntu-latest`, mysql to `8.0`
 - Overhauled README.md with complete documentation

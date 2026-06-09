@@ -26,10 +26,10 @@ tests/test_call_api.py               4 tests
 tests/test_create_host.py            4 tests
 tests/test_find_object.py            9 tests
 tests/test_get_api_version.py        2 tests
-tests/test_host_delete.py            5 tests
+tests/test_delete_host.py            5 tests
 tests/test_host_status.py            5 tests
-tests/test_maintenance_create_or_update.py  4 tests
-tests/test_maintenance_delete.py     7 tests
+tests/test_create_or_update_maintenance.py  4 tests
+tests/test_delete_maintenance.py     7 tests
 tests/test_verify_credentials.py     2 tests
 ```
 

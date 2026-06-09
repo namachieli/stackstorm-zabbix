@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from tzlocal import get_localzone
 from lib.actions import ZabbixBaseAction
 

@@ -1,0 +1,92 @@
+import mock
+
+from zabbix_base_action_test_case import ZabbixBaseActionTestCase
+from create_or_update_maintenance import MaintenanceCreateOrUpdate
+
+from zabbix_utils.exceptions import ProcessingError
+from zabbix_utils.exceptions import APIRequestError
+
+
+class MaintenanceCreateOrUpdateTestCase(ZabbixBaseActionTestCase):
+    __test__ = True
+    action_cls = MaintenanceCreateOrUpdate
+
+    @mock.patch("lib.actions.ZabbixBaseAction.connect")
+    def test_run_connection_error(self, mock_connect):
+        action = self.get_action_instance(self.full_config)
+        mock_connect.side_effect = ProcessingError("connection error")
+        test_dict = {
+            "hostname": "test",
+            "time_type": 0,
+            "maintenance_window_name": "test",
+            "maintenance_type": 0,
+            "start_date": "2017-11-14 10:40",
+            "end_date": "2017-11-14 10:45",
+        }
+
+        with self.assertRaises(ProcessingError):
+            action.run(**test_dict)
+
+    @mock.patch("lib.actions.ZabbixBaseAction.connect")
+    def test_run_host_error(self, mock_connect):
+        action = self.get_action_instance(self.full_config)
+        mock_connect.return_vaue = "connect return"
+        test_dict = {
+            "hostname": "test",
+            "time_type": 0,
+            "maintenance_window_name": "test",
+            "maintenance_type": 0,
+            "start_date": "2017-11-14 10:40",
+            "end_date": "2017-11-14 10:45",
+        }
+        action.find_host = mock.MagicMock(side_effect=APIRequestError("host error"))
+        action.connect = mock_connect
+
+        with self.assertRaises(APIRequestError):
+            action.run(**test_dict)
+
+    @mock.patch("lib.actions.ZabbixBaseAction.connect")
+    def test_run_maintenance_error(self, mock_connect):
+        action = self.get_action_instance(self.full_config)
+        mock_connect.return_vaue = "connect return"
+        test_dict = {
+            "hostname": "test",
+            "time_type": 0,
+            "maintenance_window_name": "test",
+            "maintenance_type": 0,
+            "start_date": "2017-11-14 10:40",
+            "end_date": "2017-11-14 10:45",
+        }
+        host_dict = {"name": "test", "hostid": "1"}
+        action.connect = mock_connect
+        action.find_host = mock.MagicMock(return_value=host_dict["hostid"])
+        action.maintenance_create_or_update = mock.MagicMock(
+            side_effect=APIRequestError("maintenance error")
+        )
+
+        with self.assertRaises(APIRequestError):
+            action.run(**test_dict)
+
+    @mock.patch("lib.actions.ZabbixBaseAction.connect")
+    def test_run(self, mock_connect):
+        action = self.get_action_instance(self.full_config)
+        mock_connect.return_vaue = "connect return"
+        test_dict = {
+            "hostname": "test",
+            "time_type": 0,
+            "maintenance_window_name": "test",
+            "maintenance_type": 0,
+            "start_date": "2017-11-14 10:40",
+            "end_date": "2017-11-14 10:45",
+        }
+        host_dict = {"name": "test", "hostid": "1"}
+        maintenance_dict = {"maintenanceids": ["1"]}
+        expected_return = maintenance_dict["maintenanceids"][0]
+        action.connect = mock_connect
+        action.find_host = mock.MagicMock(return_value=host_dict["hostid"])
+        action.maintenance_create_or_update = mock.MagicMock(
+            return_value=maintenance_dict
+        )
+
+        result = action.run(**test_dict)
+        self.assertEqual(result, expected_return)

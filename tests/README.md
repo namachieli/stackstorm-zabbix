@@ -274,4 +274,4 @@ python3 -m pytest tests/test_my_action.py -v
 The test filename maps to the Python entry point it tests, **not** the YAML action name. For example:
 - `call_api.py` → `test_call_api.py`
 - `find_object.py` → `test_find_object.py`
-- `host_delete.py` → `test_host_delete.py`
+- `delete_host.py` → `test_delete_host.py`
