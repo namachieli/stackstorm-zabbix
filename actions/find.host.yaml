@@ -1,0 +1,24 @@
+---
+name: find.host
+pack: zabbix
+runner_type: python-script
+description: "Resolve a Zabbix hostname to its host ID. Returns exactly one ID or raises an error."
+enabled: true
+entry_point: find_object.py
+parameters:
+  object_type:
+    default: "host"
+    immutable: true
+  filter_field:
+    default: "host"
+    immutable: true
+  id_field:
+    default: "hostid"
+    immutable: true
+  allow_multiple:
+    default: false
+    immutable: true
+  name:
+    type: string
+    description: "Hostname or technical name of the Zabbix host."
+    required: true

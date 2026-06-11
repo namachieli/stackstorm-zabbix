@@ -1,0 +1,19 @@
+---
+name: export.configuration
+pack: zabbix
+runner_type: python-script
+description: "Export Zabbix configuration data."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "configuration.export"
+    immutable: true
+  format:
+    type: string
+    description: "Export format: yaml, xml, or json."
+    default: "yaml"
+  options:
+    type: object
+    description: "Objects to export (e.g. {'hosts': ['10084'], 'templates': ['10001']})."
+    required: true

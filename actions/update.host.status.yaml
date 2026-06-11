@@ -1,0 +1,16 @@
+---
+name: update.host.status
+pack: zabbix
+runner_type: python-script
+description: "Update the monitoring status of a host by hostname."
+enabled: true
+entry_point: host_status.py
+parameters:
+  hostname:
+    type: string
+    description: "Name of the Zabbix host."
+    required: true
+  status:
+    type: integer
+    description: "Status value: 0 (monitored) or 1 (unmonitored)."
+    required: true

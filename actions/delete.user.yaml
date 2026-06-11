@@ -1,0 +1,15 @@
+---
+name: delete.user
+pack: zabbix
+runner_type: python-script
+description: "Delete users by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "user.delete"
+    immutable: true
+  params_list:
+    type: array
+    description: "List of user IDs to delete."
+    required: true

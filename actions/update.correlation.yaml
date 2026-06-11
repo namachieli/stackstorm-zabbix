@@ -1,0 +1,35 @@
+---
+name: update.correlation
+pack: zabbix
+runner_type: python-script
+description: "Update an event correlation rule."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "correlation.update"
+    immutable: true
+  correlationid:
+    type: string
+    description: "ID of the correlation to update."
+    required: true
+  name:
+    type: string
+    description: "Correlation name."
+    required: false
+  filter:
+    type: object
+    description: "Correlation filter."
+    required: false
+  operations:
+    type: array
+    description: "Correlation operations."
+    required: false
+  status:
+    type: integer
+    description: "Status."
+    required: false
+  description:
+    type: string
+    description: "Description."
+    required: false

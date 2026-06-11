@@ -1,0 +1,39 @@
+---
+name: create.template
+pack: zabbix
+runner_type: python-script
+description: "Create a new template."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "template.create"
+    immutable: true
+  host:
+    type: string
+    description: "Technical name of the template."
+    required: true
+  groups:
+    type: array
+    description: "Host groups to add template to."
+    required: true
+  name:
+    type: string
+    description: "Visible name of the template."
+    required: false
+  description:
+    type: string
+    description: "Template description."
+    required: false
+  templates:
+    type: array
+    description: "Templates to link."
+    required: false
+  macros:
+    type: array
+    description: "User macros for the template."
+    required: false
+  tags:
+    type: array
+    description: "Template tags."
+    required: false

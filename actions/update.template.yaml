@@ -1,0 +1,43 @@
+---
+name: update.template
+pack: zabbix
+runner_type: python-script
+description: "Update a template."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "template.update"
+    immutable: true
+  templateid:
+    type: string
+    description: "ID of the template to update."
+    required: true
+  host:
+    type: string
+    description: "New technical name."
+    required: false
+  name:
+    type: string
+    description: "New visible name."
+    required: false
+  description:
+    type: string
+    description: "Template description."
+    required: false
+  groups:
+    type: array
+    description: "Host groups (replaces existing)."
+    required: false
+  templates:
+    type: array
+    description: "Linked templates (replaces existing)."
+    required: false
+  macros:
+    type: array
+    description: "User macros."
+    required: false
+  tags:
+    type: array
+    description: "Template tags."
+    required: false

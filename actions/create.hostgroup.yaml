@@ -1,0 +1,15 @@
+---
+name: create.hostgroup
+pack: zabbix
+runner_type: python-script
+description: "Create a new host group."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "hostgroup.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the host group."
+    required: true

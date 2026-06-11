@@ -1,0 +1,31 @@
+---
+name: get.trend
+pack: zabbix
+runner_type: python-script
+description: "Retrieve trend data (hourly aggregated values)."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "trend.get"
+    immutable: true
+  itemids:
+    type: array
+    description: "Item IDs to retrieve trends for."
+    required: true
+  time_from:
+    type: string
+    description: "Return only trends after this time (unix timestamp)."
+    required: false
+  time_till:
+    type: string
+    description: "Return only trends before this time (unix timestamp)."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false

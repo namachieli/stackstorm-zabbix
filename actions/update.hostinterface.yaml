@@ -1,0 +1,39 @@
+---
+name: update.hostinterface
+pack: zabbix
+runner_type: python-script
+description: "Update a host interface."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "hostinterface.update"
+    immutable: true
+  interfaceid:
+    type: string
+    description: "ID of the interface to update."
+    required: true
+  type:
+    type: integer
+    description: "Interface type."
+    required: false
+  main:
+    type: integer
+    description: "Is main interface."
+    required: false
+  useip:
+    type: integer
+    description: "Connect via IP or DNS."
+    required: false
+  ip:
+    type: string
+    description: "IP address."
+    required: false
+  dns:
+    type: string
+    description: "DNS name."
+    required: false
+  port:
+    type: string
+    description: "Port number."
+    required: false

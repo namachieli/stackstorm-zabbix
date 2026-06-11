@@ -1,0 +1,47 @@
+---
+name: create.item
+pack: zabbix
+runner_type: python-script
+description: "Create a new monitoring item."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "item.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the item."
+    required: true
+  key_:
+    type: string
+    description: "Item key."
+    required: true
+  hostid:
+    type: string
+    description: "ID of the host to create item on."
+    required: true
+  type:
+    type: integer
+    description: "Item type (0=agent, 2=trapper, 7=http agent, etc)."
+    required: true
+  value_type:
+    type: integer
+    description: "Value type (0=float, 1=char, 2=log, 3=unsigned, 4=text)."
+    required: true
+  delay:
+    type: string
+    description: "Update interval (e.g. '30s', '1m')."
+    required: false
+  interfaceid:
+    type: string
+    description: "Host interface ID."
+    required: false
+  units:
+    type: string
+    description: "Value units."
+    required: false
+  description:
+    type: string
+    description: "Item description."
+    required: false

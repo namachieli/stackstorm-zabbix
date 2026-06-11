@@ -1,0 +1,27 @@
+---
+name: get.proxy
+pack: zabbix
+runner_type: python-script
+description: "Get a proxy by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "proxy.get"
+    immutable: true
+  proxyids:
+    type: array
+    description: "Proxy IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  selectHosts:
+    type: string
+    description: "Include hosts monitored by proxy. Set to 'extend'."
+    required: false
+  selectInterface:
+    type: string
+    description: "Include proxy interface. Set to 'extend'."
+    required: false

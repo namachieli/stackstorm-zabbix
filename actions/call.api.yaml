@@ -1,0 +1,28 @@
+---
+name: call.api
+pack: zabbix
+runner_type: python-script
+description: "Generic Zabbix API method dispatcher. Call any API method with arbitrary parameters."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    type: string
+    description: "Zabbix API method to call (e.g. 'host.get', 'trigger.create')."
+    required: true
+  params_list:
+    type: array
+    description: "Positional parameters for methods that accept arrays (e.g. delete methods). Mutually exclusive with keyword parameters."
+    required: false
+  filter:
+    type: object
+    description: "Filter conditions for the API call."
+    required: false
+  output:
+    type: array
+    description: "List of fields to return in the response."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results to return."
+    required: false

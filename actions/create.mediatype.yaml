@@ -1,0 +1,35 @@
+---
+name: create.mediatype
+pack: zabbix
+runner_type: python-script
+description: "Create a new media type."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "mediatype.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the media type."
+    required: true
+  type:
+    type: integer
+    description: "Type: 0 (email), 1 (script), 2 (SMS), 4 (webhook)."
+    required: true
+  status:
+    type: integer
+    description: "Status: 0 (enabled), 1 (disabled)."
+    required: false
+  description:
+    type: string
+    description: "Media type description."
+    required: false
+  script:
+    type: string
+    description: "Webhook JavaScript body."
+    required: false
+  parameters:
+    type: array
+    description: "Webhook parameters."
+    required: false

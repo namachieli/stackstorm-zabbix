@@ -1,0 +1,39 @@
+---
+name: create.action
+pack: zabbix
+runner_type: python-script
+description: "Create a new alert action."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "action.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the action."
+    required: true
+  eventsource:
+    type: integer
+    description: "Event source: 0 (trigger), 1 (discovery), 2 (autoregistration), 3 (internal)."
+    required: true
+  status:
+    type: integer
+    description: "Status: 0 (enabled), 1 (disabled)."
+    required: false
+  esc_period:
+    type: string
+    description: "Default escalation period (e.g. '60s')."
+    required: false
+  operations:
+    type: array
+    description: "Action operations."
+    required: true
+  recovery_operations:
+    type: array
+    description: "Recovery operations."
+    required: false
+  filter:
+    type: object
+    description: "Action filter conditions."
+    required: false

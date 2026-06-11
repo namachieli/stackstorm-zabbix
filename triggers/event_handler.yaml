@@ -1,20 +1,43 @@
 ---
 name: event_handler
 pack: zabbix
-description: 'Trigger type for zabbix event handler.'
+description: "Trigger dispatched when Zabbix sends an alert via the direct StackStorm webhook."
 payload_schema:
   type: object
   properties:
     alert_sendto:
       type: string
+      description: "Recipient from Zabbix user media configuration ({ALERT.SENDTO})."
     alert_subject:
       type: string
+      description: "Alert subject from Zabbix action ({ALERT.SUBJECT})."
     alert_message:
+      description: "Alert message body ({ALERT.MESSAGE}). String or parsed JSON object."
       anyOf:
-        - type: array
         - type: object
         - type: string
-    extra_args:
-      type: array
-      items:
-        type: string
+    host:
+      type: string
+      description: "Host that triggered the event ({HOST.NAME})."
+    event_id:
+      type: string
+      description: "Zabbix event ID ({EVENT.ID})."
+    trigger_id:
+      type: string
+      description: "Zabbix trigger ID ({TRIGGER.ID})."
+    trigger_name:
+      type: string
+      description: "Name of the Zabbix trigger ({TRIGGER.NAME})."
+    trigger_status:
+      type: string
+      description: "PROBLEM or OK ({TRIGGER.STATUS})."
+    trigger_severity:
+      type: string
+      description: "Severity: Not classified, Information, Warning, Average, High, Disaster ({TRIGGER.SEVERITY})."
+    event_time:
+      type: string
+      description: "Time the event occurred ({EVENT.TIME})."
+    event_date:
+      type: string
+      description: "Date the event occurred ({EVENT.DATE})."
+  additionalProperties: true

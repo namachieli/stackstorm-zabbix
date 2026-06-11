@@ -12,6 +12,7 @@ class ZabbixBaseActionTestCase(BaseActionTestCase):
 
         self._full_config = self.load_yaml('full.yaml')
         self._blank_config = self.load_yaml('blank.yaml')
+        self._token_config = self.load_yaml('token.yaml')
 
     def load_yaml(self, filename):
         return yaml.safe_load(self.get_fixture_content(filename))
@@ -26,3 +27,7 @@ class ZabbixBaseActionTestCase(BaseActionTestCase):
     @property
     def blank_config(self):
         return self._blank_config
+
+    @property
+    def token_config(self):
+        return self._token_config

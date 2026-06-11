@@ -1,0 +1,24 @@
+---
+name: find.hosts
+pack: zabbix
+runner_type: python-script
+description: "Resolve one or more Zabbix hostnames to host IDs. Returns all matching IDs (may be empty)."
+enabled: true
+entry_point: find_object.py
+parameters:
+  object_type:
+    default: "host"
+    immutable: true
+  filter_field:
+    default: "host"
+    immutable: true
+  id_field:
+    default: "hostid"
+    immutable: true
+  allow_multiple:
+    default: true
+    immutable: true
+  name:
+    type: array
+    description: "List of hostnames to resolve."
+    required: true

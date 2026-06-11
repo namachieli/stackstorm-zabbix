@@ -1,0 +1,55 @@
+---
+name: update.host
+pack: zabbix
+runner_type: python-script
+description: "Update properties of an existing Zabbix host."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "host.update"
+    immutable: true
+  hostid:
+    type: string
+    description: "ID of the host to update."
+    required: true
+  host:
+    type: string
+    description: "New technical name for the host."
+    required: false
+  name:
+    type: string
+    description: "New visible name for the host."
+    required: false
+  description:
+    type: string
+    description: "Host description."
+    required: false
+  status:
+    type: integer
+    description: "Host status: 0 (monitored) or 1 (unmonitored)."
+    required: false
+  groups:
+    type: array
+    description: "Host groups to assign (replaces existing)."
+    required: false
+  interfaces:
+    type: array
+    description: "Host interfaces to set (replaces existing)."
+    required: false
+  templates:
+    type: array
+    description: "Templates to link (replaces existing)."
+    required: false
+  macros:
+    type: array
+    description: "User macros to set."
+    required: false
+  inventory:
+    type: object
+    description: "Host inventory properties to update."
+    required: false
+  tags:
+    type: array
+    description: "Host tags to set."
+    required: false

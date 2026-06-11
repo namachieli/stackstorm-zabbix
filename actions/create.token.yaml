@@ -1,0 +1,31 @@
+---
+name: create.token
+pack: zabbix
+runner_type: python-script
+description: "Create a new API token."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "token.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the token."
+    required: true
+  userid:
+    type: string
+    description: "ID of the user the token belongs to."
+    required: true
+  description:
+    type: string
+    description: "Token description."
+    required: false
+  status:
+    type: integer
+    description: "Status: 0 (enabled), 1 (disabled)."
+    required: false
+  expires_at:
+    type: string
+    description: "Expiration unix timestamp (0 for no expiry)."
+    required: false

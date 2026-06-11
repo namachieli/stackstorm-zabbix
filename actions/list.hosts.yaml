@@ -1,0 +1,55 @@
+---
+name: list.hosts
+pack: zabbix
+runner_type: python-script
+description: "List and search Zabbix hosts with optional filtering."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "host.get"
+    immutable: true
+  filter:
+    type: object
+    description: "Filter conditions (e.g. {\"host\": \"myhost\"})."
+    required: false
+  output:
+    type: array
+    description: "Fields to return (e.g. [\"hostid\", \"host\", \"name\", \"status\"])."
+    required: false
+  groupids:
+    type: array
+    description: "Filter by host group IDs."
+    required: false
+  templateids:
+    type: array
+    description: "Filter by template IDs."
+    required: false
+  proxyids:
+    type: array
+    description: "Filter by proxy IDs."
+    required: false
+  hostids:
+    type: array
+    description: "Filter by specific host IDs."
+    required: false
+  search:
+    type: object
+    description: "Search by pattern (e.g. {\"host\": \"web*\"})."
+    required: false
+  searchWildcardsEnabled:
+    type: boolean
+    description: "Enable wildcard matching in search."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false
+  sortfield:
+    type: string
+    description: "Field to sort by."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false

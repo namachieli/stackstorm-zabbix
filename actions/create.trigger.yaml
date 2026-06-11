@@ -1,0 +1,43 @@
+---
+name: create.trigger
+pack: zabbix
+runner_type: python-script
+description: "Create a new trigger."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "trigger.create"
+    immutable: true
+  description:
+    type: string
+    description: "Name of the trigger."
+    required: true
+  expression:
+    type: string
+    description: "Trigger expression."
+    required: true
+  priority:
+    type: integer
+    description: "Severity: 0-5 (not classified to disaster)."
+    required: false
+  status:
+    type: integer
+    description: "Status: 0 (enabled), 1 (disabled)."
+    required: false
+  type:
+    type: integer
+    description: "Event generation: 0 (single), 1 (multiple)."
+    required: false
+  comments:
+    type: string
+    description: "Trigger comments."
+    required: false
+  tags:
+    type: array
+    description: "Trigger tags."
+    required: false
+  dependencies:
+    type: array
+    description: "Trigger dependencies."
+    required: false

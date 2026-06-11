@@ -1,0 +1,24 @@
+---
+name: get.host.inventory
+pack: zabbix
+runner_type: python-script
+description: "Get inventory data for one or more hosts by host ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "host.get"
+    immutable: true
+  hostids:
+    type: array
+    description: "List of host IDs to retrieve inventory for."
+    required: true
+  selectInventory:
+    default: "extend"
+    immutable: true
+  output:
+    type: array
+    description: "Host fields to include alongside inventory."
+    default:
+      - "hostid"
+      - "host"

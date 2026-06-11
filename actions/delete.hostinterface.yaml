@@ -1,0 +1,15 @@
+---
+name: delete.hostinterface
+pack: zabbix
+runner_type: python-script
+description: "Delete host interfaces by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "hostinterface.delete"
+    immutable: true
+  params_list:
+    type: array
+    description: "List of interface IDs to delete."
+    required: true

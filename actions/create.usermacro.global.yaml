@@ -1,0 +1,27 @@
+---
+name: create.usermacro.global
+pack: zabbix
+runner_type: python-script
+description: "Create a global user macro."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "usermacro.createglobal"
+    immutable: true
+  macro:
+    type: string
+    description: "Macro name (e.g. '{$MACRO}')."
+    required: true
+  value:
+    type: string
+    description: "Macro value."
+    required: true
+  type:
+    type: integer
+    description: "Type: 0 (text), 1 (secret), 2 (vault secret)."
+    required: false
+  description:
+    type: string
+    description: "Macro description."
+    required: false

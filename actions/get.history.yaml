@@ -1,0 +1,47 @@
+---
+name: get.history
+pack: zabbix
+runner_type: python-script
+description: "Retrieve historical data values."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "history.get"
+    immutable: true
+  hostids:
+    type: array
+    description: "Filter by host IDs."
+    required: false
+  itemids:
+    type: array
+    description: "Filter by item IDs."
+    required: false
+  history:
+    type: integer
+    description: "History type: 0 (float), 1 (string), 2 (log), 3 (integer), 4 (text)."
+    required: false
+  time_from:
+    type: string
+    description: "Return only values after this time (unix timestamp)."
+    required: false
+  time_till:
+    type: string
+    description: "Return only values before this time (unix timestamp)."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  sortfield:
+    type: string
+    description: "Field to sort by (usually 'clock')."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false

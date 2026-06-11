@@ -1,0 +1,23 @@
+---
+name: get.graph
+pack: zabbix
+runner_type: python-script
+description: "Get a graph by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "graph.get"
+    immutable: true
+  graphids:
+    type: array
+    description: "Graph IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  selectGraphItems:
+    type: string
+    description: "Include graph items. Set to 'extend'."
+    required: false

@@ -1,0 +1,39 @@
+---
+name: create.user
+pack: zabbix
+runner_type: python-script
+description: "Create a new user."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "user.create"
+    immutable: true
+  username:
+    type: string
+    description: "Username."
+    required: true
+  passwd:
+    type: string
+    description: "User password."
+    required: true
+  roleid:
+    type: string
+    description: "Role ID to assign."
+    required: true
+  usrgrps:
+    type: array
+    description: "User groups to add to."
+    required: true
+  name:
+    type: string
+    description: "First name."
+    required: false
+  surname:
+    type: string
+    description: "Surname."
+    required: false
+  medias:
+    type: array
+    description: "User medias (notification methods)."
+    required: false

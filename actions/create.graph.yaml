@@ -1,0 +1,31 @@
+---
+name: create.graph
+pack: zabbix
+runner_type: python-script
+description: "Create a new graph."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "graph.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the graph."
+    required: true
+  gitems:
+    type: array
+    description: "Graph items."
+    required: true
+  width:
+    type: integer
+    description: "Graph width in pixels."
+    required: false
+  height:
+    type: integer
+    description: "Graph height in pixels."
+    required: false
+  graphtype:
+    type: integer
+    description: "Graph type: 0 (normal), 1 (stacked), 2 (pie), 3 (exploded)."
+    required: false

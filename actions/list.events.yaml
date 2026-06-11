@@ -1,0 +1,59 @@
+---
+name: list.events
+pack: zabbix
+runner_type: python-script
+description: "List Zabbix events with optional filtering."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "event.get"
+    immutable: true
+  hostids:
+    type: array
+    description: "Filter events by host IDs."
+    required: false
+  objectids:
+    type: array
+    description: "Filter by trigger/item/etc IDs that generated events."
+    required: false
+  source:
+    type: integer
+    description: "Event source: 0 (trigger), 1 (discovery), 2 (autoregistration), 3 (internal)."
+    required: false
+  object:
+    type: integer
+    description: "Event object type: 0 (trigger), 1 (discovered host), etc."
+    required: false
+  value:
+    type: integer
+    description: "Event value: 0 (OK/Up), 1 (Problem/Down)."
+    required: false
+  time_from:
+    type: string
+    description: "Return only events after this time (unix timestamp)."
+    required: false
+  time_till:
+    type: string
+    description: "Return only events before this time (unix timestamp)."
+    required: false
+  filter:
+    type: object
+    description: "Filter conditions."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  sortfield:
+    type: array
+    description: "Fields to sort by (e.g. ['clock', 'eventid'])."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false

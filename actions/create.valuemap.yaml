@@ -1,0 +1,23 @@
+---
+name: create.valuemap
+pack: zabbix
+runner_type: python-script
+description: "Create a new value map."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "valuemap.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the value map."
+    required: true
+  hostid:
+    type: string
+    description: "ID of the host."
+    required: true
+  mappings:
+    type: array
+    description: "Value mappings."
+    required: true

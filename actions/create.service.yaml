@@ -1,0 +1,55 @@
+---
+name: create.service
+pack: zabbix
+runner_type: python-script
+description: "Create a new service."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "service.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the service."
+    required: true
+  algorithm:
+    type: integer
+    description: "Status calculation: 0 (set by child), 1 (most critical child), 2 (most critical if all children have problems)."
+    required: true
+  sortorder:
+    type: integer
+    description: "Position for sorting."
+    required: true
+  weight:
+    type: integer
+    description: "Service weight."
+    required: false
+  propagation_rule:
+    type: integer
+    description: "Status propagation rule."
+    required: false
+  propagation_value:
+    type: integer
+    description: "Status propagation value."
+    required: false
+  status_rules:
+    type: array
+    description: "Status calculation rules."
+    required: false
+  tags:
+    type: array
+    description: "Service tags."
+    required: false
+  problem_tags:
+    type: array
+    description: "Problem tags."
+    required: false
+  parents:
+    type: array
+    description: "Parent services."
+    required: false
+  children:
+    type: array
+    description: "Child services."
+    required: false

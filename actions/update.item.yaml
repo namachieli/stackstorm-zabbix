@@ -1,0 +1,43 @@
+---
+name: update.item
+pack: zabbix
+runner_type: python-script
+description: "Update a monitoring item."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "item.update"
+    immutable: true
+  itemid:
+    type: string
+    description: "ID of the item to update."
+    required: true
+  name:
+    type: string
+    description: "Item name."
+    required: false
+  key_:
+    type: string
+    description: "Item key."
+    required: false
+  type:
+    type: integer
+    description: "Item type."
+    required: false
+  value_type:
+    type: integer
+    description: "Value type."
+    required: false
+  delay:
+    type: string
+    description: "Update interval."
+    required: false
+  status:
+    type: integer
+    description: "Status: 0 (enabled), 1 (disabled)."
+    required: false
+  description:
+    type: string
+    description: "Item description."
+    required: false

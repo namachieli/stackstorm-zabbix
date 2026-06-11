@@ -1,0 +1,35 @@
+---
+name: update.map
+pack: zabbix
+runner_type: python-script
+description: "Update a network map."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "map.update"
+    immutable: true
+  sysmapid:
+    type: string
+    description: "ID of the map to update."
+    required: true
+  name:
+    type: string
+    description: "Map name."
+    required: false
+  width:
+    type: integer
+    description: "Map width."
+    required: false
+  height:
+    type: integer
+    description: "Map height."
+    required: false
+  selements:
+    type: array
+    description: "Map elements."
+    required: false
+  links:
+    type: array
+    description: "Map links."
+    required: false

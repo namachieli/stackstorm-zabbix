@@ -1,0 +1,19 @@
+---
+name: get.script
+pack: zabbix
+runner_type: python-script
+description: "Get a script by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "script.get"
+    immutable: true
+  scriptids:
+    type: array
+    description: "Script IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"

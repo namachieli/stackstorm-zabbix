@@ -1,0 +1,24 @@
+---
+name: find.maintenance
+pack: zabbix
+runner_type: python-script
+description: "Resolve a maintenance window name to its maintenance ID."
+enabled: true
+entry_point: find_object.py
+parameters:
+  object_type:
+    default: "maintenance"
+    immutable: true
+  filter_field:
+    default: "name"
+    immutable: true
+  id_field:
+    default: "maintenanceid"
+    immutable: true
+  allow_multiple:
+    default: false
+    immutable: true
+  name:
+    type: string
+    description: "Name of the maintenance window."
+    required: true

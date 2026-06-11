@@ -1,0 +1,32 @@
+---
+name: create.host
+pack: zabbix
+runner_type: python-script
+description: "Create a new Zabbix host with interface configuration and optional proxy assignment."
+enabled: true
+entry_point: create_host.py
+parameters:
+  name:
+    type: string
+    description: "Technical hostname to create."
+    required: true
+  groups:
+    type: array
+    description: "List of host group names to assign."
+    required: true
+  ipaddrs:
+    type: array
+    description: "List of IP addresses for agent interfaces."
+    default: []
+  domains:
+    type: array
+    description: "List of DNS names for agent interfaces."
+    default: []
+  main_if:
+    type: string
+    description: "IP or DNS to designate as the main interface."
+    required: false
+  proxy_host:
+    type: string
+    description: "Name of proxy to assign this host to."
+    required: false

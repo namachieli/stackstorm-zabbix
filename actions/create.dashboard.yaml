@@ -1,0 +1,27 @@
+---
+name: create.dashboard
+pack: zabbix
+runner_type: python-script
+description: "Create a new dashboard."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "dashboard.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the dashboard."
+    required: true
+  pages:
+    type: array
+    description: "Dashboard pages with widgets."
+    required: false
+  userid:
+    type: string
+    description: "Owner user ID."
+    required: false
+  display_period:
+    type: integer
+    description: "Page display period in seconds."
+    required: false
