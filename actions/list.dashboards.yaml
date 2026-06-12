@@ -1,0 +1,43 @@
+---
+name: list.dashboards
+pack: zabbix
+runner_type: python-script
+description: "List Zabbix dashboards."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "dashboard.get"
+    immutable: true
+  filter:
+    type: object
+    description: "Filter conditions."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  search:
+    type: object
+    description: "Search by pattern."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false
+  sortfield:
+    type: string
+    description: "Field to sort by."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  dashboardids:
+    type: array
+    description: "Filter by dashboard IDs."
+    required: false
+  selectPages:
+    type: string
+    description: "Include dashboard pages. Set to 'extend'."
+    required: false

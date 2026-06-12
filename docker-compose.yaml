@@ -1,7 +1,8 @@
-version: '3'
+version: '3.8'
 services:
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3306:3306"
     environment:
@@ -9,27 +10,62 @@ services:
       MYSQL_USER: zabbix
       MYSQL_PASSWORD: zabbix
       MYSQL_ROOT_PASSWORD: passwd
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ppasswd"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   zabbix-server:
-    image: zabbix/zabbix-server-mysql:${TAG}
+    image: zabbix/zabbix-server-mysql:6.0-ubuntu-latest
     environment:
       DB_SERVER_HOST: mysql
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
       MYSQL_ROOT_PASSWORD: passwd
     depends_on:
-      - mysql
-    volumes:
-      - ./tools/scripts/st2_dispatch.py:/usr/lib/zabbix/alertscripts/st2_dispatch.py
+      mysql:
+        condition: service_healthy
     ports:
       - "10051:10051"
 
   zabbix-web:
-    image: zabbix/zabbix-web-nginx-mysql:${TAG}
-    restart: always
+    image: zabbix/zabbix-web-nginx-mysql:6.0-ubuntu-latest
     environment:
       DB_SERVER_HOST: mysql
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
       MYSQL_ROOT_PASSWORD: passwd
-    ports:
-      - 3033:80
+      ZBX_SERVER_HOST: zabbix-server
+      PHP_TZ: America/New_York
     depends_on:
-      - mysql
-      - zabbix-server
+      mysql:
+        condition: service_healthy
+      zabbix-server:
+        condition: service_started
+    ports:
+      - "8080:8080"
+
+  # Uncomment to enable RabbitMQ for webhook testing.
+  # The RabbitMQ webhook media type publishes messages to the Management API.
+  # Use with stackstorm-rabbitmq pack to consume messages into StackStorm.
+  # rabbitmq:
+  #   image: rabbitmq:3.12-management
+  #   ports:
+  #     - "5672:5672"
+  #     - "15672:15672"
+  #   environment:
+  #     RABBITMQ_DEFAULT_USER: guest
+  #     RABBITMQ_DEFAULT_PASS: guest
+  #   healthcheck:
+  #     test: ["CMD", "rabbitmqctl", "status"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+
+volumes:
+  mysql-data:

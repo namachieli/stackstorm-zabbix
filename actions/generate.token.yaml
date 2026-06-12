@@ -1,0 +1,15 @@
+---
+name: generate.token
+pack: zabbix
+runner_type: python-script
+description: "Generate (reveal) the auth string for an API token."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "token.generate"
+    immutable: true
+  params_list:
+    type: array
+    description: "List of token IDs to generate auth strings for."
+    required: true

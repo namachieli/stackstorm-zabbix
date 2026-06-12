@@ -1,0 +1,24 @@
+---
+name: get.host.interfaces
+pack: zabbix
+runner_type: python-script
+description: "Get interfaces for one or more hosts by host ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "host.get"
+    immutable: true
+  hostids:
+    type: array
+    description: "List of host IDs to retrieve interfaces for."
+    required: true
+  selectInterfaces:
+    default: "extend"
+    immutable: true
+  output:
+    type: array
+    description: "Host fields to include alongside interfaces."
+    default:
+      - "hostid"
+      - "host"

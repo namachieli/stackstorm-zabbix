@@ -1,0 +1,35 @@
+---
+name: update.proxy
+pack: zabbix
+runner_type: python-script
+description: "Update a proxy."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "proxy.update"
+    immutable: true
+  proxyid:
+    type: string
+    description: "ID of the proxy to update."
+    required: true
+  host:
+    type: string
+    description: "Proxy name."
+    required: false
+  status:
+    type: integer
+    description: "Proxy mode: 5 (active), 6 (passive)."
+    required: false
+  description:
+    type: string
+    description: "Proxy description."
+    required: false
+  interface:
+    type: object
+    description: "Proxy interface."
+    required: false
+  hosts:
+    type: array
+    description: "Hosts to assign."
+    required: false

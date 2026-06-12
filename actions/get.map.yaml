@@ -1,0 +1,27 @@
+---
+name: get.map
+pack: zabbix
+runner_type: python-script
+description: "Get a network map by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "map.get"
+    immutable: true
+  sysmapids:
+    type: array
+    description: "Map IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  selectSelements:
+    type: string
+    description: "Include map elements. Set to 'extend'."
+    required: false
+  selectLinks:
+    type: string
+    description: "Include map links. Set to 'extend'."
+    required: false

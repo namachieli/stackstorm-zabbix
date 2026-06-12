@@ -1,0 +1,16 @@
+---
+name: delete.maintenance
+pack: zabbix
+runner_type: python-script
+description: "Delete a maintenance window by name or ID."
+enabled: true
+entry_point: delete_maintenance.py
+parameters:
+  maintenance_id:
+    type: string
+    description: "ID of the maintenance window to delete."
+    required: false
+  maintenance_window_name:
+    type: string
+    description: "Name of the maintenance window to delete."
+    required: false

@@ -1,0 +1,39 @@
+---
+name: create.script
+pack: zabbix
+runner_type: python-script
+description: "Create a new script."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "script.create"
+    immutable: true
+  name:
+    type: string
+    description: "Name of the script."
+    required: true
+  command:
+    type: string
+    description: "Script command to execute."
+    required: true
+  type:
+    type: integer
+    description: "Script type: 0 (custom), 1 (IPMI), 2 (SSH), 3 (Telnet), 5 (webhook)."
+    required: true
+  scope:
+    type: integer
+    description: "Scope: 1 (action), 2 (host/event), 4 (both)."
+    required: false
+  execute_on:
+    type: integer
+    description: "Execute on: 0 (agent), 1 (server), 2 (proxy)."
+    required: false
+  groupid:
+    type: string
+    description: "Host group ID where script is available."
+    required: false
+  description:
+    type: string
+    description: "Script description."
+    required: false

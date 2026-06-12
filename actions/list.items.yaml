@@ -1,0 +1,51 @@
+---
+name: list.items
+pack: zabbix
+runner_type: python-script
+description: "List Zabbix monitoring items."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "item.get"
+    immutable: true
+  filter:
+    type: object
+    description: "Filter conditions."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  search:
+    type: object
+    description: "Search by pattern."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false
+  sortfield:
+    type: string
+    description: "Field to sort by."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  hostids:
+    type: array
+    description: "Filter items by host IDs."
+    required: false
+  groupids:
+    type: array
+    description: "Filter items by host group IDs."
+    required: false
+  templateids:
+    type: array
+    description: "Filter items by template IDs."
+    required: false
+  itemids:
+    type: array
+    description: "Filter by specific item IDs."
+    required: false

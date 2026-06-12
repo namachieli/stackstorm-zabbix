@@ -1,0 +1,51 @@
+---
+name: update.maintenance
+pack: zabbix
+runner_type: python-script
+description: "Update a maintenance window."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "maintenance.update"
+    immutable: true
+  maintenanceid:
+    type: string
+    description: "ID of the maintenance window to update."
+    required: true
+  name:
+    type: string
+    description: "Maintenance window name."
+    required: false
+  active_since:
+    type: string
+    description: "Active since (unix timestamp)."
+    required: false
+  active_till:
+    type: string
+    description: "Active till (unix timestamp)."
+    required: false
+  hosts:
+    type: array
+    description: "Hosts in maintenance."
+    required: false
+  groups:
+    type: array
+    description: "Host groups in maintenance."
+    required: false
+  timeperiods:
+    type: array
+    description: "Time periods."
+    required: false
+  maintenance_type:
+    type: integer
+    description: "Maintenance type."
+    required: false
+  description:
+    type: string
+    description: "Description."
+    required: false
+  tags:
+    type: array
+    description: "Problem tags."
+    required: false

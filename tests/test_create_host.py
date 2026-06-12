@@ -35,13 +35,11 @@ class CreateHostTest(ZabbixBaseActionTestCase):
             self._check_data['password_authentication'] = True
         mock_connect.side_effect = side_effect_connect
 
-        # set mock client to AirOne
         action = self.get_action_instance(self.full_config)
         action.client = self._mock_client
 
-        (result, data) = action.run(name='test-host', groups=[], domains=['example.com'])
-        self.assertTrue(result)
-        self.assertEqual(data, {'hostids': ['1234']})
+        result = action.run(name='test-host', groups=[], domains=['example.com'])
+        self.assertEqual(result, {'hostids': ['1234']})
         self.assertTrue(self._check_data['password_authentication'])
         self.assertFalse('is_set_proxy' in self._check_data)
         self.assertEqual(self._check_data['interfaces'], [{
@@ -61,29 +59,36 @@ class CreateHostTest(ZabbixBaseActionTestCase):
         self.assertEqual([x['main'] for x in ifdata if x['dns'] == 'foo.test'], [0])
         self.assertEqual([x['main'] for x in ifdata if x['dns'] == 'bar.test'], [1])
 
-    @mock.patch('create_host.ZabbixAPI')
     @mock.patch('lib.actions.ZabbixBaseAction.connect')
-    def test_create_host_with_token_and_proxy(self, mock_connect, mock_client):
-        def side_effect():
-            self._check_data['password_authentication'] = True
-        mock_connect.side_effect = side_effect
-
-        # set mock client to AirOne
-        mock_client.return_value = self._mock_client
+    def test_create_host_with_proxy(self, mock_connect):
         action = self.get_action_instance(self.full_config)
+        action.client = self._mock_client
 
-        (result, data) = action.run(name='test-host', groups=[], domains=['example.com'],
-                                    token='token', proxy_host='proxy')
-        self.assertTrue(result)
-        self.assertEqual(data, {'hostids': ['1234']})
-        self.assertFalse('password_authentication' in self._check_data)
+        result = action.run(name='test-host', groups=[], domains=['example.com'],
+                            proxy_host='proxy')
+        self.assertEqual(result, {'hostids': ['1234']})
         self.assertTrue(self._check_data['is_set_proxy'])
 
     @mock.patch('lib.actions.ZabbixBaseAction.connect')
     def test_create_host_without_interface_information(self, mock_connect):
         action = self.get_action_instance(self.full_config)
         action.client = self._mock_client
-        (result, data) = action.run(name='test-host', groups=[])
 
-        self.assertFalse(result)
-        self.assertEqual(data, 'You have to IP address or domain value at least one.')
+        with self.assertRaises(ValueError):
+            action.run(name='test-host', groups=[])
+
+    @mock.patch('lib.actions.ZabbixBaseAction.connect')
+    def test_create_host_with_ip(self, mock_connect):
+        action = self.get_action_instance(self.full_config)
+        action.client = self._mock_client
+
+        result = action.run(name='test-host', groups=[], ipaddrs=['192.168.1.1'])
+        self.assertEqual(result, {'hostids': ['1234']})
+        self.assertEqual(self._check_data['interfaces'], [{
+            'type': 1,
+            'main': 1,
+            'useip': 1,
+            'dns': '',
+            'ip': '192.168.1.1',
+            'port': '10050'
+        }])

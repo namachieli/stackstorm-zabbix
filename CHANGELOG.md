@@ -1,5 +1,72 @@
 # Change Log
 
+## [2.0.0] - 2026-06-05
+
+**BREAKING CHANGE**: This version is not backwards compatible with previous releases. All actions have been renamed, parameters standardized, and return types changed. Existing workflows, rules, and automations that reference this pack must be refactored before upgrading.
+
+### Added
+- Zabbix 6.0.46 API compatibility
+- StackStorm 3.9 compatibility
+- Webhook media type for direct StackStorm API integration (replaces script-based approach)
+- Webhook media type for RabbitMQ message publishing
+- API token authentication support (in addition to user/password)
+- `scripts/register_webhook_st2.sh` for automated ST2 webhook configuration
+- `scripts/register_webhook_rabbitmq.sh` for automated RabbitMQ webhook + exchange/queue configuration
+- 139 actions covering the full Zabbix 6.0 API (up from 25)
+- `call_api.py` generic dispatcher handles ~130 YAML-only actions via `api_method` + `params_list`
+- `find_object.py` generic name→ID resolver for 7 find actions (host, hosts, hostgroup, template, proxy, maintenance, script)
+- `acknowledge_event.py` dedicated action for event acknowledgement with close support
+- `host_status.py` consolidated get/update host status by hostname
+- Full CRUD coverage for: hosts, hostgroups, templates, items, triggers, maintenance, proxies, scripts, services, SLA, users, usergroups, roles, media types, discovery, host interfaces, graphs, value maps, web monitoring, correlations, API tokens, maps, dashboards, actions/alerting, user macros (host + global)
+- `list.problems` action (most important monitoring action)
+- `export.configuration` and `import.configuration` actions
+- `execute.script` action for remote script execution
+- `host_get_extended()` helper method in ZabbixBaseAction (DRY refactoring)
+- `conftest.py` for pytest path configuration
+- Enriched trigger payload schema with structured Zabbix event fields
+- Contributors field in pack.yaml
+- `actions/README.md` design guide documenting conventions and patterns
+- `tests/README.md` guide for test structure and contribution
+- 65 unit tests passing
+
+### Changed
+- Switched from py-zabbix (EncoreTechnologies fork) to official `zabbix-utils` library
+- All actions now use pack config auth exclusively (removed per-action token parameter)
+- All actions renamed to `<verb>.<object>[.<qualifier>]` dot-delimited convention
+- Standardized return patterns: return data directly on success, raise exceptions on failure (no more tuple returns)
+- Standardized parameter naming: `hostname` (name string), `host_id` (single ID), `host_ids` (array)
+- Consolidated 17 Python entry points down to 10 via DRY refactoring
+- `call_api.py` enhanced with `params_list` support for positional-arg API methods (delete operations)
+- `create_host.py` simplified — no tuple returns, raises ValueError on error
+- `delete_host.py` parameter renamed `host` → `hostname`
+- `create_or_update_maintenance.py` uses `.timestamp()` instead of `strftime('%s')`, returns ID directly
+- config.schema.yaml simplified to Zabbix-only auth
+- `docker-compose.yaml`: pinned images to `6.0-ubuntu-latest`, mysql to `8.0`
+- Overhauled README.md with complete documentation
+
+### Removed
+- `tools/` directory (register_st2_config_to_zabbix.py, st2_dispatch.py)
+- `spec/` directory (Ruby Serverspec tests)
+- `Gemfile` and `Rakefile` (Ruby infrastructure)
+- `images/` directory (legacy screenshots)
+- Legacy script-based media type approach
+- `six` library dependency
+- `pytz` dependency
+- Legacy `token` parameter from 9 action YAML definitions
+- `rules/zabbix_rabbitmq_bridge.yaml` (unnecessary bridge rule)
+- `actions/register_webhook_st2.py` + `.yaml` (scripts are the correct mechanism)
+- `actions/register_webhook_rabbitmq.py` + `.yaml` (scripts are the correct mechanism)
+- `test_tool_register_st2_config_to_zabbix.py`
+- `test_tool_st2_dispatch.py`
+- `extra_args` field from trigger payload schema
+- All 25 legacy action files (replaced by 139 consistently-named actions)
+- `event_action_runner.py` (replaced by `acknowledge_event.py`)
+- `host_get_id.py`, `host_get_multiple_ids.py` (replaced by `find_object.py`)
+- `host_get_status.py`, `host_update_status.py` (replaced by `host_status.py`)
+- `host_get_interfaces.py`, `host_get_inventory.py`, `host_get_hostgroups.py` (replaced by YAML-only actions via `call_api.py`)
+- `list_media_types.py` (replaced by YAML-only action via `call_api.py`)
+- `ACTIONS-PROPOSAL.md` (design decisions captured in `actions/README.md`)
+
 ## 1.2.4
 ### Updated
 - Updated files to work with latest CI updates

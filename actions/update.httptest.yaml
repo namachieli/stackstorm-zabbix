@@ -1,0 +1,39 @@
+---
+name: update.httptest
+pack: zabbix
+runner_type: python-script
+description: "Update a web monitoring scenario."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "httptest.update"
+    immutable: true
+  httptestid:
+    type: string
+    description: "ID of the web scenario to update."
+    required: true
+  name:
+    type: string
+    description: "Web scenario name."
+    required: false
+  steps:
+    type: array
+    description: "Web scenario steps."
+    required: false
+  delay:
+    type: string
+    description: "Execution interval."
+    required: false
+  retries:
+    type: integer
+    description: "Number of retries."
+    required: false
+  agent:
+    type: string
+    description: "HTTP user agent."
+    required: false
+  status:
+    type: integer
+    description: "Status."
+    required: false

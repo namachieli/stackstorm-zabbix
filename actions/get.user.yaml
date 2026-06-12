@@ -1,0 +1,27 @@
+---
+name: get.user
+pack: zabbix
+runner_type: python-script
+description: "Get a user by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "user.get"
+    immutable: true
+  userids:
+    type: array
+    description: "User IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  selectMedias:
+    type: string
+    description: "Include user medias. Set to 'extend'."
+    required: false
+  selectUsrgrps:
+    type: string
+    description: "Include user groups. Set to 'extend'."
+    required: false

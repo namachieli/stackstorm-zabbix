@@ -1,0 +1,51 @@
+---
+name: list.sla
+pack: zabbix
+runner_type: python-script
+description: "List SLA definitions."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "sla.get"
+    immutable: true
+  filter:
+    type: object
+    description: "Filter conditions."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  search:
+    type: object
+    description: "Search by pattern."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false
+  sortfield:
+    type: string
+    description: "Field to sort by."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  slaids:
+    type: array
+    description: "Filter by SLA IDs."
+    required: false
+  serviceids:
+    type: array
+    description: "Filter SLAs linked to these services."
+    required: false
+  selectSchedule:
+    type: string
+    description: "Include schedule. Set to 'extend'."
+    required: false
+  selectServiceTags:
+    type: string
+    description: "Include service tags. Set to 'extend'."
+    required: false

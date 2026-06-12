@@ -1,0 +1,15 @@
+---
+name: delete.map
+pack: zabbix
+runner_type: python-script
+description: "Delete network maps by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "map.delete"
+    immutable: true
+  params_list:
+    type: array
+    description: "List of map IDs to delete."
+    required: true

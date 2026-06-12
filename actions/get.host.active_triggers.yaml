@@ -1,0 +1,16 @@
+---
+name: get.host.active_triggers
+pack: zabbix
+runner_type: orquesta
+description: "Get active (in problem state) triggers for a host, optionally filtered by priority."
+enabled: true
+entry_point: workflows/get.host.active_triggers.yaml
+parameters:
+  hostname:
+    type: string
+    description: "Name of the Zabbix host."
+    required: true
+  priority:
+    type: array
+    description: "List of priority numbers to filter by (0-5). Empty for all."
+    default: []

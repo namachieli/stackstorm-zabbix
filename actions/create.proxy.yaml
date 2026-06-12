@@ -1,0 +1,31 @@
+---
+name: create.proxy
+pack: zabbix
+runner_type: python-script
+description: "Create a new proxy."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "proxy.create"
+    immutable: true
+  host:
+    type: string
+    description: "Technical name of the proxy."
+    required: true
+  status:
+    type: integer
+    description: "Proxy mode: 5 (active), 6 (passive)."
+    required: true
+  description:
+    type: string
+    description: "Proxy description."
+    required: false
+  interface:
+    type: object
+    description: "Proxy interface (required for passive proxy)."
+    required: false
+  hosts:
+    type: array
+    description: "Hosts to assign to this proxy."
+    required: false

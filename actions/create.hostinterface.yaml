@@ -1,0 +1,39 @@
+---
+name: create.hostinterface
+pack: zabbix
+runner_type: python-script
+description: "Create a host interface."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "hostinterface.create"
+    immutable: true
+  hostid:
+    type: string
+    description: "ID of the host."
+    required: true
+  type:
+    type: integer
+    description: "Interface type: 1 (agent), 2 (SNMP), 3 (IPMI), 4 (JMX)."
+    required: true
+  main:
+    type: integer
+    description: "Is main interface: 0 (no), 1 (yes)."
+    required: true
+  useip:
+    type: integer
+    description: "Connect via: 0 (DNS), 1 (IP)."
+    required: true
+  ip:
+    type: string
+    description: "IP address."
+    required: false
+  dns:
+    type: string
+    description: "DNS name."
+    required: false
+  port:
+    type: string
+    description: "Port number."
+    required: true

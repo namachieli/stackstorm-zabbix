@@ -1,0 +1,24 @@
+---
+name: find.hostgroup
+pack: zabbix
+runner_type: python-script
+description: "Resolve a host group name to its group ID."
+enabled: true
+entry_point: find_object.py
+parameters:
+  object_type:
+    default: "hostgroup"
+    immutable: true
+  filter_field:
+    default: "name"
+    immutable: true
+  id_field:
+    default: "groupid"
+    immutable: true
+  allow_multiple:
+    default: false
+    immutable: true
+  name:
+    type: string
+    description: "Name of the host group."
+    required: true

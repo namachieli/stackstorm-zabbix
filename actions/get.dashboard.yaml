@@ -1,0 +1,23 @@
+---
+name: get.dashboard
+pack: zabbix
+runner_type: python-script
+description: "Get a dashboard by ID."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "dashboard.get"
+    immutable: true
+  dashboardids:
+    type: array
+    description: "Dashboard IDs to retrieve."
+    required: true
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  selectPages:
+    type: string
+    description: "Include dashboard pages. Set to 'extend'."
+    required: false

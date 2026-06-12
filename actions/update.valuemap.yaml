@@ -1,0 +1,23 @@
+---
+name: update.valuemap
+pack: zabbix
+runner_type: python-script
+description: "Update a value map."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "valuemap.update"
+    immutable: true
+  valuemapid:
+    type: string
+    description: "ID of the value map to update."
+    required: true
+  name:
+    type: string
+    description: "Value map name."
+    required: false
+  mappings:
+    type: array
+    description: "Value mappings."
+    required: false

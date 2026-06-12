@@ -1,0 +1,43 @@
+---
+name: list.tokens
+pack: zabbix
+runner_type: python-script
+description: "List API tokens."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "token.get"
+    immutable: true
+  filter:
+    type: object
+    description: "Filter conditions."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  search:
+    type: object
+    description: "Search by pattern."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false
+  sortfield:
+    type: string
+    description: "Field to sort by."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  tokenids:
+    type: array
+    description: "Filter by token IDs."
+    required: false
+  userids:
+    type: array
+    description: "Filter by user IDs."
+    required: false

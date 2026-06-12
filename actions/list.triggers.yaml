@@ -1,0 +1,67 @@
+---
+name: list.triggers
+pack: zabbix
+runner_type: python-script
+description: "List Zabbix triggers."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "trigger.get"
+    immutable: true
+  filter:
+    type: object
+    description: "Filter conditions."
+    required: false
+  output:
+    type: string
+    description: "Output fields. Use 'extend' for all."
+    default: "extend"
+  search:
+    type: object
+    description: "Search by pattern."
+    required: false
+  limit:
+    type: integer
+    description: "Maximum number of results."
+    required: false
+  sortfield:
+    type: string
+    description: "Field to sort by."
+    required: false
+  sortorder:
+    type: string
+    description: "Sort order: ASC or DESC."
+    required: false
+  hostids:
+    type: array
+    description: "Filter triggers by host IDs."
+    required: false
+  groupids:
+    type: array
+    description: "Filter triggers by host group IDs."
+    required: false
+  templateids:
+    type: array
+    description: "Filter triggers by template IDs."
+    required: false
+  triggerids:
+    type: array
+    description: "Filter by specific trigger IDs."
+    required: false
+  expandDescription:
+    type: boolean
+    description: "Expand macros in trigger description."
+    required: false
+  only_true:
+    type: boolean
+    description: "Return only triggers in problem state."
+    required: false
+  min_severity:
+    type: integer
+    description: "Minimum trigger severity (0-5)."
+    required: false
+  selectHosts:
+    type: string
+    description: "Include hosts. Set to 'extend'."
+    required: false

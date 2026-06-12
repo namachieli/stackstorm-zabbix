@@ -1,12 +1,16 @@
 ---
 ref: zabbix
 name: zabbix
-description: Zabbix Monitoring System
+description: Zabbix 6.0+ Monitoring Integration Pack for StackStorm
 keywords:
   - zabbix
   - monitoring
-version: 1.2.4
-author: Hiroyasu OHYAMA
-email: user.localhost2000@gmail.com
+  - webhooks
+  - alerts
+version: 2.0.0
 python_versions:
   - "3"
+author: Hiroyasu OHYAMA
+email: user.localhost2000@gmail.com
+contributors:
+  - "namachieli"

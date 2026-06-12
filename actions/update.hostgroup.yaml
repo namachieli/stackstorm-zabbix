@@ -1,0 +1,19 @@
+---
+name: update.hostgroup
+pack: zabbix
+runner_type: python-script
+description: "Update a host group."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "hostgroup.update"
+    immutable: true
+  groupid:
+    type: string
+    description: "ID of the host group to update."
+    required: true
+  name:
+    type: string
+    description: "New name for the host group."
+    required: false

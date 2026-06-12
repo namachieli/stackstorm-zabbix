@@ -1,0 +1,39 @@
+---
+name: update.trigger
+pack: zabbix
+runner_type: python-script
+description: "Update a trigger."
+enabled: true
+entry_point: call_api.py
+parameters:
+  api_method:
+    default: "trigger.update"
+    immutable: true
+  triggerid:
+    type: string
+    description: "ID of the trigger to update."
+    required: true
+  description:
+    type: string
+    description: "Trigger name."
+    required: false
+  expression:
+    type: string
+    description: "Trigger expression."
+    required: false
+  priority:
+    type: integer
+    description: "Severity (0-5)."
+    required: false
+  status:
+    type: integer
+    description: "Status: 0 (enabled), 1 (disabled)."
+    required: false
+  comments:
+    type: string
+    description: "Trigger comments."
+    required: false
+  tags:
+    type: array
+    description: "Trigger tags."
+    required: false
